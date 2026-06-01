@@ -1,470 +1,503 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShaktiSetu — Your Safety, Your Community, Your Power</title>
-    <link rel="icon" type="image/svg+xml" href="file:///C:/Users/harsh/Downloads/logo.png">
-    <meta name="description" content="ShaktiSetu connects women with instant emergency support, safe-route navigation, and a trusted community network. Download now for peace of mind.">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="ShaktiSetu — Empowering Women's Safety & Community">
-    <meta property="og:description" content="Instant emergency alerts, verified safe routes, and a powerful network of women. Never walk alone.">
-    <meta property="og:image" content="https://shaktisetu.app/og-image.jpg">
+    <title>ShaktiSetu | Your Safety, Your Power</title>
+    <meta name="description" content="Personal safety app for women. Instant SOS, safe route navigation, and trusted community network.">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="ShaktiSetu — Empowering Women's Safety">
-    <meta property="twitter:description" content="Instant emergency alerts, verified safe routes, and a powerful network of women.">
+    <!-- Fonts: Plus Jakarta Sans for a friendly, modern, readable look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-
-
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+                    },
                     colors: {
+                        background: '#000000', // Pure AMOLED Black
+                        surface: '#0A0A0A', 
+                        surface2: '#141414',
                         brand: {
-                            50: '#fdf4f5',
-                            100: '#fbe8eb',
-                            500: '#9d2242', /* Deep empowering plum/burgundy */
-                            600: '#821a35',
-                            700: '#671329',
+                            400: '#22d3ee', // Friendly Cyan
+                            500: '#06b6d4', 
+                            600: '#0891b2', 
                         },
                         accent: {
-                            500: '#f97316', /* Warm coral for CTAs */
+                            400: '#c084fc', // Soft Purple
+                            500: '#a855f7', 
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'gradient-text': 'linear-gradient(to right bottom, #ffffff, #94a3b8)',
+                        'gradient-brand': 'linear-gradient(to right, #06b6d4, #a855f7)',
+                    },
+                    animation: {
+                        'aurora': 'aurora 24s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        aurora: {
+                            '0%, 100%': { transform: 'rotate(0deg) scale(1)' },
+                            '50%': { transform: 'rotate(180deg) scale(1.2)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
                         }
                     }
                 }
             }
         }
     </script>
+    
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- Inline Custom Styles for Transitions -->
+
     <style>
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
+        body {
+            background-color: theme('colors.background');
+            color: white;
+            overflow-x: hidden;
         }
-        .faq-active .faq-answer {
-            max-height: 200px;
+
+        /* Subtle Grid Background */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
         }
-        .faq-active .faq-icon {
-            transform: rotate(180deg);
+
+        /* Premium Friendly Glass Card */
+        .glass-card {
+            background: linear-gradient(145deg, rgba(15, 15, 15, 0.8) 0%, rgba(5, 5, 5, 0.4) 100%);
+            border: 1px solid rgba(255,255,255,0.06);
+            backdrop-filter: blur(20px);
+            border-radius: 28px; /* Slightly rounder for friendlier feel */
+            box-shadow: 0 4px 30px -1px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
         }
+        .glass-card:hover {
+            border-color: rgba(6, 182, 212, 0.4); 
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.9) 0%, rgba(10, 10, 10, 0.5) 100%);
+            box-shadow: 0 8px 40px -1px rgba(6, 182, 212, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Top Nav Glass */
+        .nav-glass {
+            background: rgba(0, 0, 0, 0.7); 
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Glowing button */
+        .btn-glow {
+            position: relative;
+        }
+        .btn-glow::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: inherit;
+            background: linear-gradient(to right, #06b6d4, #a855f7);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            filter: blur(12px);
+        }
+        .btn-glow:hover::after {
+            opacity: 0.7;
+        }
+
+        ::selection { background: rgba(6, 182, 212, 0.25); color: white; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans antialiased">
+<body class="antialiased selection:bg-brand-500/30">
 
-    <!-- Analytics Hook Placeholder -->
-    <script>
-        window.analyticsTrack = function(eventName, properties) {
-            console.log(`[Analytics Block] Event: ${eventName}`, properties);
-            // Integration Example:
-            // ga('send', 'event', eventName, properties);
-        };
-    </script>
+    <!-- Ambient Aurora Backgrounds -->
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-background">
+        <div class="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] rounded-full bg-brand-500/15 blur-[150px] animate-aurora mix-blend-normal"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-accent-500/15 blur-[150px] animate-aurora mix-blend-normal" style="animation-direction: reverse; animation-duration: 28s;"></div>
+        <div class="absolute inset-0 bg-grid w-full h-full opacity-50"></div>
+    </div>
 
-    <!-- Navigation Header -->
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <a href="#" class="flex items-center space-x-2">
-        <div class="bg-brand-500 text-white p-2 rounded-xl">
-            <i data-lucide="shield" class="w-6 h-6"></i>
-        </div>
-                <span class="text-xl font-bold tracking-tight text-brand-700">ShaktiSetu</span>
+    <!-- Navigation -->
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2.5 group">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-500 to-accent-500 flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.3)]">
+                    <i data-lucide="shield-check" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="font-bold text-xl tracking-tight text-white">Shakti<span class="text-white/60">Setu</span></span>
             </a>
-            <nav class="hidden md:flex space-x-8 font-medium text-gray-600">
-                <a href="#features" class="hover:text-brand-500 transition">Features</a>
-                <a href="#how-it-works" class="hover:text-brand-500 transition">How It Works</a>
-                <a href="#pricing" class="hover:text-brand-500 transition">Pricing</a>
-                <a href="#faq" class="hover:text-brand-500 transition">FAQ</a>
+            
+            <!-- User Friendly Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#features" class="hover:text-white transition-colors">Features</a>
+                <a href="#how-it-works" class="hover:text-white transition-colors">How it Works</a>
+                <a href="#privacy" class="hover:text-white transition-colors">Privacy</a>
             </nav>
-            <div class="hidden md:block">
-                <a href="#download" onclick="analyticsTrack('nav_cta_clicked')" class="bg-brand-500 text-white px-5 py-2.5 rounded-full font-semibold hover:bg-brand-600 transition shadow-sm">Download App</a>
+
+            <div class="hidden md:flex items-center gap-5">
+                <a href="#download" class="text-sm font-bold bg-white text-black px-6 py-2.5 rounded-full hover:bg-slate-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                    Get the App — Free
+                </a>
             </div>
-            <!-- Mobile Menu Toggle Button -->
-            <button class="md:hidden text-gray-700" id="mobile-menu-btn" aria-label="Toggle Menu">
+
+            <button class="md:hidden text-slate-300 hover:text-white">
                 <i data-lucide="menu" class="w-6 h-6"></i>
             </button>
-        </div>
-        <!-- Mobile Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-gray-200 px-4 pt-2 pb-6 space-y-3">
-            <a href="#features" class="block py-2 text-gray-600">Features</a>
-            <a href="#how-it-works" class="block py-2 text-gray-600">How It Works</a>
-            <a href="#pricing" class="block py-2 text-gray-600">Pricing</a>
-            <a href="#faq" class="block py-2 text-gray-600">FAQ</a>
-            <a href="#download" class="block text-center bg-brand-500 text-white py-3 rounded-xl font-semibold">Download App</a>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="relative overflow-hidden bg-gradient-to-b from-brand-50 via-white to-white pt-16 pb-24 lg:pt-24 lg:pb-32">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12 items-center">
-            <div class="lg:col-span-7 text-center lg:text-left">
-                <span class="inline-flex items-center gap-1.5 bg-brand-100 text-brand-700 px-3 py-1.5 rounded-full text-sm font-semibold mb-6">
-                    <i data-lucide="sparkles" class="w-4 h-4"></i> Built for women
-                </span>
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-tight">
-                    Your Safety, Your Community, <span class="text-brand-500">Your Power.</span>
-                </h1>
-                <p class="mt-6 text-lg sm:text-xl text-gray-600 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                    ShaktiSetu connects women with instant emergency support and a trusted network, ensuring you never walk alone.
-                </p>
-                <div class="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start items-center gap-4">
-                    <a href="#download" onclick="analyticsTrack('hero_primary_cta')" class="w-full sm:w-auto bg-brand-500 text-white text-center px-8 py-4 rounded-xl font-bold text-lg hover:bg-brand-600 shadow-lg shadow-brand-500/20 transition-all transform hover:-translate-y-0.5">
-                        Get Secure Today — It's Free
-                    </a>
-                    <a href="#how-it-works" class="w-full sm:w-auto flex items-center justify-center gap-2 border border-gray-300 bg-white px-8 py-4 rounded-xl font-bold text-lg text-gray-700 hover:bg-gray-50 transition">
-                        See How It Works <i data-lucide="arrow-right" class="w-5 h-5"></i>
-                    </a>
-                </div>
-                <!-- Trust Micro-copy -->
-                <div class="mt-8 flex items-center justify-center lg:justify-start gap-6 text-sm text-gray-500">
-                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> 100% Private & Encrypted</span>
-                    <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> Zero Hidden Costs</span>
-                </div>
-            </div>
-            <!-- Interactive App Graphic Mockup -->
-            <div class="lg:col-span-5 relative flex justify-center">
-                <div class="absolute inset-0 bg-gradient-to-tr from-brand-500/10 to-accent-500/10 rounded-full blur-3xl -z-10 max-w-md mx-auto"></div>
-                <div class="relative w-72 h-[580px] bg-neutral-900 rounded-[40px] shadow-2xl border-8 border-neutral-800 overflow-hidden flex flex-col justify-between p-4">
-                    <div class="w-32 h-4 bg-neutral-800 rounded-full mx-auto mb-4"></div>
-                    <!-- Mock Screen Content -->
-                    <div class="flex-1 bg-white rounded-2xl p-4 flex flex-col justify-between">
-                        <div class="flex justify-between items-center border-b pb-2">
-                            <div>
-                                <p class="text-xs text-gray-400">Current Status</p>
-                                <p class="text-sm font-bold text-emerald-600 flex items-center gap-1"><span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span> Safe & Monitored</p>
-                            </div>
-                            <i data-lucide="user" class="w-6 h-6 text-gray-400 bg-gray-100 p-1 rounded-full"></i>
+    <section class="relative pt-36 pb-20 md:pt-48 md:pb-32 flex flex-col items-center text-center px-4">
+        
+        <!-- Friendly Badge -->
+        <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand-500/30 bg-brand-500/10 backdrop-blur-md mb-8 shadow-[0_0_15px_rgba(6,182,212,0.15)]">
+            <i data-lucide="heart" class="w-4 h-4 text-brand-400"></i>
+            <span class="text-sm font-medium text-brand-100">Built for women, trusted by families</span>
+        </div>
+
+        <h1 class="reveal text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] max-w-4xl bg-gradient-text text-transparent bg-clip-text text-glow pb-2">
+            Peace of mind,<br>
+            <span class="bg-gradient-brand text-transparent bg-clip-text">in the palm of your hand.</span>
+        </h1>
+        
+        <p class="reveal mt-6 text-slate-300 text-lg md:text-xl max-w-2xl font-medium tracking-wide leading-relaxed" style="transition-delay: 100ms;">
+            An easy-to-use app that instantly connects you to emergency support, verified safe routes, and your closest friends when you need them most.
+        </p>
+
+        <div class="reveal mt-10 flex flex-col sm:flex-row items-center gap-4" style="transition-delay: 200ms;">
+            <a href="#download" class="btn-glow flex items-center justify-center gap-2 bg-white text-black px-8 py-4 rounded-full font-bold text-base hover:scale-105 transition-transform w-full sm:w-auto">
+                Download for Free <i data-lucide="arrow-right" class="w-4 h-4 text-slate-600"></i>
+            </a>
+            <a href="#how-it-works" class="flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold text-base text-white border border-white/20 hover:bg-white/10 transition-colors w-full sm:w-auto">
+                <i data-lucide="play-circle" class="w-5 h-5"></i> See How It Works
+            </a>
+        </div>
+    </section>
+
+    <!-- App UI Mockup (Simplified & Friendly) -->
+    <section class="relative px-6 pb-32">
+        <div class="max-w-4xl mx-auto reveal animate-float">
+            <!-- Sleek Phone Frame -->
+            <div class="bg-[#0A0A0A] border border-white/[0.08] p-3 rounded-[2.5rem] backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] ring-1 ring-white/[0.05] max-w-md mx-auto">
+                <div class="bg-[#050505] border border-white/[0.05] rounded-[2rem] overflow-hidden relative shadow-inner h-[600px] flex flex-col">
+                    
+                    <!-- Dynamic Island / Top Bar -->
+                    <div class="pt-4 px-6 pb-2 flex justify-between items-center z-10 relative">
+                        <span class="text-xs font-semibold text-white">9:41</span>
+                        <div class="w-24 h-6 bg-black rounded-full border border-white/10 flex items-center justify-center gap-1.5">
+                            <div class="w-1.5 h-1.5 bg-brand-500 rounded-full animate-pulse"></div>
+                            <span class="text-[10px] text-brand-400 font-medium">Protected</span>
                         </div>
+                        <div class="flex gap-1.5 items-center">
+                            <i data-lucide="signal" class="w-3.5 h-3.5 text-white"></i>
+                            <i data-lucide="wifi" class="w-3.5 h-3.5 text-white"></i>
+                            <i data-lucide="battery-full" class="w-4 h-4 text-white"></i>
+                        </div>
+                    </div>
+
+                    <!-- App Content -->
+                    <div class="flex-1 p-6 flex flex-col gap-6 relative z-10">
                         
-                        <div class="my-auto text-center space-y-4">
-                            <button class="w-32 h-32 bg-red-600 rounded-full mx-auto flex flex-col items-center justify-center text-white font-bold shadow-lg shadow-red-600/30 border-4 border-red-200 transform active:scale-95 transition">
-                                <i data-lucide="alert-triangle" class="w-8 h-8 mb-1"></i>
-                                <span>SOS</span>
-                            </button>
-                            <p class="text-xs text-gray-400 font-medium">Press and hold for 2 seconds to alert network</p>
+                        <!-- Greeting -->
+                        <div class="mt-4">
+                            <h2 class="text-2xl font-bold text-white">Hi, Priya 👋</h2>
+                            <p class="text-slate-400 text-sm mt-1">You are safe and connected.</p>
                         </div>
 
-                        <div class="bg-brand-50 p-3 rounded-xl flex items-center gap-3">
-                            <i data-lucide="navigation" class="w-5 h-5 text-brand-500"></i>
-                            <div class="text-left">
-                                <p class="text-xs font-bold text-brand-700">SafeRoute Active</p>
-                                <p class="text-[10px] text-gray-500">3 verified safe checkpoints ahead</p>
+                        <!-- Info Cards -->
+                        <div class="space-y-3">
+                            <div class="bg-[#141414] border border-white/[0.05] p-4 rounded-2xl flex items-center gap-4 shadow-lg">
+                                <div class="w-10 h-10 rounded-full bg-brand-500/20 flex items-center justify-center text-brand-400">
+                                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-semibold text-white">Current Location</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Shared only with Family</div>
+                                </div>
+                            </div>
+                            <div class="bg-[#141414] border border-white/[0.05] p-4 rounded-2xl flex items-center gap-4 shadow-lg">
+                                <div class="w-10 h-10 rounded-full bg-accent-500/20 flex items-center justify-center text-accent-400">
+                                    <i data-lucide="users" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-semibold text-white">Trusted Circle</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">Mom & Rahul are active</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Problem & Solution Section -->
-    <section class="py-20 bg-white border-y border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6">
-                    <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                        Because peace of mind shouldn’t be a luxury.
-                    </h2>
-                    <p class="text-lg text-gray-600">
-                        Navigating dark streets, commuting alone, or handling unsafe environments shouldn’t fall entirely on your shoulders. Existing solutions are either too slow or too complicated when seconds matter.
-                    </p>
-                    <div class="border-l-4 border-brand-500 pl-4 italic text-gray-700">
-                        "We envisioned a digital bridge—a 'Setu'—that turns collective awareness into actionable personal security instantly."
-                    </div>
-                </div>
-                <div class="bg-gray-50 p-8 rounded-3xl space-y-6">
-                    <div class="flex gap-4 items-start">
-                        <div class="bg-red-100 p-2.5 rounded-xl text-red-600 shrink-0"><i data-lucide="x-circle" class="w-5 h-5"></i></div>
-                        <div>
-                            <h4 class="font-bold text-gray-900">The Status Quo</h4>
-                            <p class="text-gray-600 text-sm mt-1">Fumbling with lock screens, dialing dispatchers, or feeling isolated during stressful moments.</p>
+                        <!-- Main SOS Button -->
+                        <div class="flex-1 flex flex-col items-center justify-center mt-4">
+                            <!-- Subtle radar rings -->
+                            <div class="absolute inset-0 flex items-center justify-center opacity-40 pointer-events-none mt-20">
+                                <div class="w-48 h-48 rounded-full border border-rose-500/20"></div>
+                                <div class="w-64 h-64 rounded-full border border-rose-500/10 absolute"></div>
+                            </div>
+
+                            <div class="relative z-10 flex flex-col items-center">
+                                <div class="w-36 h-36 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center relative cursor-pointer group hover:bg-rose-500/20 transition-all duration-300">
+                                    <div class="absolute inset-0 rounded-full bg-rose-500 blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                                    <div class="w-28 h-28 rounded-full bg-gradient-to-br from-rose-500 to-rose-700 flex flex-col items-center justify-center shadow-[0_0_40px_rgba(244,63,94,0.5)] relative overflow-hidden transform group-active:scale-95 transition-transform">
+                                        <i data-lucide="alert-triangle" class="w-8 h-8 text-white mb-1"></i>
+                                        <span class="font-bold text-lg tracking-wider text-white">SOS</span>
+                                    </div>
+                                </div>
+                                <p class="mt-6 text-sm font-medium text-slate-400 text-center">Press & hold for 2 seconds<br>to alert your family.</p>
+                            </div>
                         </div>
+
                     </div>
-                    <div class="h-px bg-gray-200"></div>
-                    <div class="flex gap-4 items-start">
-                        <div class="bg-emerald-100 p-2.5 rounded-xl text-emerald-600 shrink-0"><i data-lucide="check-circle" class="w-5 h-5"></i></div>
-                        <div>
-                            <h4 class="font-bold text-gray-900">The ShaktiSetu Approach</h4>
-                            <p class="text-gray-600 text-sm mt-1">One-tap SOS triggers, automated location routing to trusted guardians, and community-verified safe routing maps.</p>
+                    
+                    <!-- Bottom Nav Line -->
+                    <div class="h-1 w-1/3 bg-white/20 mx-auto rounded-full mb-4 z-10 relative"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Banner (Translated to Human Benefits) -->
+    <section class="border-y border-white/[0.05] bg-[#0A0A0A] py-10 overflow-hidden flex items-center">
+        <div class="max-w-6xl mx-auto px-6 w-full grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/[0.05]">
+            <div class="reveal">
+                <div class="text-3xl md:text-4xl font-bold text-white tracking-tight">Instant</div>
+                <div class="text-sm text-slate-400 mt-2 font-medium">SOS Alerts to Family</div>
+            </div>
+            <div class="reveal" style="transition-delay: 50ms;">
+                <div class="text-3xl md:text-4xl font-bold text-white tracking-tight">100<span class="text-brand-500">%</span></div>
+                <div class="text-sm text-slate-400 mt-2 font-medium">Private & Un-tracked</div>
+            </div>
+            <div class="reveal" style="transition-delay: 100ms;">
+                <div class="text-3xl md:text-4xl font-bold text-white tracking-tight">24/7</div>
+                <div class="text-sm text-slate-400 mt-2 font-medium">Active Community</div>
+            </div>
+            <div class="reveal" style="transition-delay: 150ms;">
+                <div class="text-3xl md:text-4xl font-bold text-white tracking-tight">Free</div>
+                <div class="text-sm text-slate-400 mt-2 font-medium">Forever for Everyone</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Friendly Features (Bento Grid) -->
+    <section id="features" class="py-32 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">Features that care for you.</h2>
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto">Designed to be simple and reliable, because in an emergency, you shouldn't have to think twice.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[320px]">
+                
+                <!-- Feature 1: Wide -->
+                <div class="glass-card md:col-span-2 p-8 flex flex-col justify-between relative overflow-hidden group reveal">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl group-hover:bg-rose-500/20 transition-colors"></div>
+                    <div class="z-10">
+                        <div class="w-12 h-12 rounded-2xl bg-rose-500/20 flex items-center justify-center mb-6 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.2)]">
+                            <i data-lucide="zap" class="w-6 h-6"></i>
                         </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">One-Tap Emergency Alert</h3>
+                        <p class="text-slate-300 text-base max-w-md leading-relaxed">If you feel unsafe, simply press the SOS button. Your exact location, battery level, and an audio snippet are instantly sent to your trusted family members and local authorities.</p>
                     </div>
                 </div>
+
+                <!-- Feature 2: Small -->
+                <div class="glass-card p-8 flex flex-col justify-between relative overflow-hidden group reveal" style="transition-delay: 100ms;">
+                    <div class="absolute bottom-0 right-0 w-40 h-40 bg-brand-500/10 rounded-full blur-2xl"></div>
+                    <div class="z-10">
+                        <div class="w-12 h-12 rounded-2xl bg-brand-500/20 flex items-center justify-center mb-6 text-brand-400">
+                            <i data-lucide="map" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Verified Safe Routes</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">Instead of the fastest route, we guide you through well-lit, busy streets verified by other women in the community.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 3: Small -->
+                <div class="glass-card p-8 flex flex-col justify-between relative overflow-hidden group reveal" style="transition-delay: 200ms;">
+                    <div class="absolute top-0 left-0 w-40 h-40 bg-slate-500/10 rounded-full blur-2xl"></div>
+                    <div class="z-10">
+                        <div class="w-12 h-12 rounded-2xl bg-slate-800 flex items-center justify-center mb-6 text-slate-300 border border-white/10">
+                            <i data-lucide="shield-check" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Private by Design</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed">Your location is yours. We don't track you in the background or sell your data. Location is shared only when YOU choose to.</p>
+                    </div>
+                </div>
+
+                <!-- Feature 4: Wide -->
+                <div class="glass-card md:col-span-2 p-8 flex flex-col justify-between relative overflow-hidden group reveal" style="transition-delay: 300ms;">
+                    <div class="absolute bottom-0 left-0 w-64 h-64 bg-accent-500/10 rounded-full blur-3xl group-hover:bg-accent-500/20 transition-colors"></div>
+                    <div class="z-10">
+                        <div class="w-12 h-12 rounded-2xl bg-accent-500/20 flex items-center justify-center mb-6 text-accent-400 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+                            <i data-lucide="heart-handshake" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Your Trusted Circle</h3>
+                        <p class="text-slate-300 text-base max-w-md leading-relaxed">Add your parents, siblings, or close friends to your 'Trusted Circle'. They will get notified when you start a late-night commute and when you reach home safely.</p>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Key Features Section -->
-    <section id="features" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Designed for Real-World Safety</h2>
-            <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">Features built with intuition, accessibility, and high efficiency under pressure.</p>
-            
-            <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Feature 1 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-left hover:shadow-md transition">
-                    <div class="bg-brand-50 text-brand-500 w-12 h-12 rounded-xl flex items-center justify-center mb-5"><i data-lucide="zap" class="w-6 h-6"></i></div>
-                    <h3 class="font-bold text-xl text-gray-900 mb-2">Instant SOS Action</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">A single, secure gesture issues alerts to selected guardians and emergency response services within 2 seconds.</p>
-                </div>
-                <!-- Feature 2 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-left hover:shadow-md transition">
-                    <div class="bg-brand-50 text-brand-500 w-12 h-12 rounded-xl flex items-center justify-center mb-5"><i data-lucide="map-pin" class="w-6 h-6"></i></div>
-                    <h3 class="font-bold text-xl text-gray-900 mb-2">SafeRoute Navigation</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">Crowdsourced and validated navigation data showing you brightly-lit, well-traveled paths rather than just fast routes.</p>
-                </div>
-                <!-- Feature 3 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-left hover:shadow-md transition">
-                    <div class="bg-brand-50 text-brand-500 w-12 h-12 rounded-xl flex items-center justify-center mb-5"><i data-lucide="users" class="w-6 h-6"></i></div>
-                    <h3 class="font-bold text-xl text-gray-900 mb-2">Trusted Circles</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">Create customized, nested groups—family, colleagues, or neighborhood allies—to easily coordinate arrivals.</p>
-                </div>
-                <!-- Feature 4 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-left hover:shadow-md transition">
-                    <div class="bg-brand-50 text-brand-500 w-12 h-12 rounded-xl flex items-center justify-center mb-5"><i data-lucide="eye-off" class="w-6 h-6"></i></div>
-                    <h3 class="font-bold text-xl text-gray-900 mb-2">Privacy First Vault</h3>
-                    <p class="text-gray-600 text-sm leading-relaxed">Your location tracking is entirely locally managed. Only shared when you activate it. Your privacy is paramount.</p>
-                </div>
+    <!-- How It Works (Replaced Developer Code Section with Simple Steps) -->
+    <section id="how-it-works" class="py-24 bg-[#050505] border-y border-white/[0.05]">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Simple to use when seconds matter.</h2>
+                <p class="text-slate-400 text-lg">Setup takes less than 2 minutes.</p>
             </div>
-        </div>
-    </section>
 
-    <!-- How It Works Section -->
-    <section id="how-it-works" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Three Steps to Ongoing Peace of Mind</h2>
-                <p class="mt-4 text-lg text-gray-600">Get up and running in under three minutes.</p>
-            </div>
-            
-            <div class="grid md:grid-cols-3 gap-12 relative">
+            <div class="grid md:grid-cols-3 gap-8">
                 <!-- Step 1 -->
-                <div class="text-center space-y-4">
-                    <div class="w-12 h-12 bg-brand-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto shadow-md">1</div>
-                    <h3 class="font-bold text-xl text-gray-900">Download & Verify</h3>
-                    <p class="text-gray-600 text-sm max-w-xs mx-auto">Install the app securely via SMS link or App Stores. Complete quick verification to confirm your identity.</p>
+                <div class="text-center reveal">
+                    <div class="w-16 h-16 rounded-full bg-[#141414] border border-white/10 flex items-center justify-center text-2xl font-bold text-brand-400 mx-auto mb-6 shadow-lg">1</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Download & Signup</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed px-4">Download the free app and verify your phone number. No hidden charges or complex forms.</p>
                 </div>
                 <!-- Step 2 -->
-                <div class="text-center space-y-4">
-                    <div class="w-12 h-12 bg-brand-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto shadow-md">2</div>
-                    <h3 class="font-bold text-xl text-gray-900">Set Your Guardians</h3>
-                    <p class="text-gray-600 text-sm max-w-xs mx-auto">Link close friends, trusted family members, or active local community responders to form your initial safety net.</p>
+                <div class="text-center reveal" style="transition-delay: 100ms;">
+                    <div class="w-16 h-16 rounded-full bg-[#141414] border border-white/10 flex items-center justify-center text-2xl font-bold text-accent-400 mx-auto mb-6 shadow-lg">2</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Add Your Family</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed px-4">Select up to 5 close contacts from your phonebook. They will be your primary safety net.</p>
                 </div>
                 <!-- Step 3 -->
-                <div class="text-center space-y-4">
-                    <div class="w-12 h-12 bg-brand-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto shadow-md">3</div>
-                    <h3 class="font-bold text-xl text-gray-900">Move with Confidence</h3>
-                    <p class="text-gray-600 text-sm max-w-xs mx-auto">Activate live tracking on late commutes, tap for assistance, or safely assist other community members nearby.</p>
+                <div class="text-center reveal" style="transition-delay: 200ms;">
+                    <div class="w-16 h-16 rounded-full bg-[#141414] border border-white/10 flex items-center justify-center text-2xl font-bold text-rose-400 mx-auto mb-6 shadow-lg">3</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Move Fearlessly</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed px-4">Use SafeRoute for night walks, or keep the app handy. Help is now always just one tap away.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials / Social Proof Section -->
-    <section class="py-20 bg-brand-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-2xl mx-auto mb-12">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Trusted by Thousands of Women</h2>
-                <p class="mt-2 text-gray-600">See how early community members rely on ShaktiSetu.</p>
+    <!-- Friendly Download Section -->
+    <section id="download" class="py-32 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-500/10 to-transparent pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
+            <div class="w-16 h-16 rounded-3xl bg-gradient-to-tr from-brand-500 to-accent-500 flex items-center justify-center shadow-[0_0_30px_rgba(6,182,212,0.4)] mx-auto mb-8">
+                <i data-lucide="shield-check" class="w-8 h-8 text-white"></i>
             </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Testimonial 1 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-brand-100 flex flex-col justify-between">
-                    <p class="text-gray-600 italic">"My late-night subway commutes back home from college used to be highly stressful. Walking with SafeRoute active makes me feel completely protected."</p>
-                    <div class="mt-6 flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-brand-200 flex items-center justify-center text-brand-700 font-bold">A</div>
-                        <div>
-                            <h5 class="font-bold text-sm text-gray-900">Ananya R.</h5>
-                            <p class="text-xs text-gray-500">Student, Tech University</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Testimonial 2 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-brand-100 flex flex-col justify-between">
-                    <p class="text-gray-600 italic">"Setting up my mother and daughter on the same network circle took minutes. The location integrity and strict privacy options are unmatched."</p>
-                    <div class="mt-6 flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-brand-200 flex items-center justify-center text-brand-700 font-bold">P</div>
-                        <div>
-                            <h5 class="font-bold text-sm text-gray-900">Pooja K.</h5>
-                            <p class="text-xs text-gray-500">Working Parent</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Testimonial 3 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-brand-100 flex flex-col justify-between">
-                    <p class="text-gray-600 italic">"I heavily value that our private geolocation isn't monetized or constantly logged. This tool truly champions modern community empowerment."</p>
-                    <div class="mt-6 flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-brand-200 flex items-center justify-center text-brand-700 font-bold">M</div>
-                        <div>
-                            <h5 class="font-bold text-sm text-gray-900">Meera S.</h5>
-                            <p class="text-xs text-gray-500">Community Safety Advocate</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing / Free to Start Section -->
-    <section id="pricing" class="py-20 bg-white">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Core Safety is Always Free</h2>
-            <p class="mt-4 text-lg text-gray-600">We firmly believe safety features should never rest behind a premium paywall.</p>
             
-            <div class="mt-10 bg-gradient-to-br from-brand-50 to-white border-2 border-brand-500 rounded-3xl p-8 max-w-md mx-auto shadow-lg relative">
-                <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">Standard Edition</span>
-                <div class="text-5xl font-black text-gray-900 mt-2">₹0 <span class="text-lg font-normal text-gray-500">/ forever</span></div>
-                <ul class="mt-8 space-y-4 text-left text-gray-600 font-medium">
-                    <li class="flex items-center gap-3"><i data-lucide="check" class="text-emerald-500 w-5 h-5"></i> Unlimited Instant SOS Alerts</li>
-                    <li class="flex items-center gap-3"><i data-lucide="check" class="text-emerald-500 w-5 h-5"></i> Add Up to 5 Personal Guardians</li>
-                    <li class="flex items-center gap-3"><i data-lucide="check" class="text-emerald-500 w-5 h-5"></i> SafeRoute Verified Mapping</li>
-                    <li class="flex items-center gap-3"><i data-lucide="check" class="text-emerald-500 w-5 h-5"></i> Fully Encrypted Device Data</li>
-                </ul>
-                <a href="#download" onclick="analyticsTrack('pricing_cta')" class="block mt-8 w-full bg-brand-500 text-white text-center py-3.5 rounded-xl font-bold hover:bg-brand-600 transition">Get Started Free</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section (Accessible Accordion) -->
-    <section id="faq" class="py-20 bg-gray-50">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold tracking-tight text-center text-gray-900 sm:text-4xl mb-12">Frequently Asked Questions</h2>
-            
-            <div class="space-y-4">
-                <!-- FAQ Item 1 -->
-                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-200">
-                    <button class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left font-bold text-gray-900 text-lg hover:bg-gray-50/50" aria-expanded="false">
-                        <span>How does the app protect my privacy?</span>
-                        <i data-lucide="chevron-down" class="faq-icon text-gray-500 w-5 h-5 transition-transform duration-200"></i>
-                    </button>
-                    <div class="faq-answer px-6 bg-white text-gray-600 text-sm leading-relaxed">
-                        <p class="pb-5">Your telemetry data is only broadcasted when you run SafeRoute navigation or directly trigger the SOS mode. We do not maintain historical tracking logs or share records with third parties.</p>
-                    </div>
-                </div>
-                <!-- FAQ Item 2 -->
-                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-200">
-                    <button class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left font-bold text-gray-900 text-lg hover:bg-gray-50/50" aria-expanded="false">
-                        <span>Will this application quickly drain my battery?</span>
-                        <i data-lucide="chevron-down" class="faq-icon text-gray-500 w-5 h-5 transition-transform duration-200"></i>
-                    </button>
-                    <div class="faq-answer px-6 bg-white text-gray-600 text-sm leading-relaxed">
-                        <p class="pb-5">ShaktiSetu utilizes modern, energy-optimized background refresh protocols that strictly consume minimal power when dormant, utilizing active GPS only when strictly requested.</p>
-                    </div>
-                </div>
-                <!-- FAQ Item 3 -->
-                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden transition-all duration-200">
-                    <button class="faq-toggle w-full px-6 py-5 flex items-center justify-between text-left font-bold text-gray-900 text-lg hover:bg-gray-50/50" aria-expanded="false">
-                        <span>What happens when I signal an emergency?</span>
-                        <i data-lucide="chevron-down" class="faq-icon text-gray-500 w-5 h-5 transition-transform duration-200"></i>
-                    </button>
-                    <div class="faq-answer px-6 bg-white text-gray-600 text-sm leading-relaxed">
-                        <p class="pb-5">The system immediately fires text updates and push pings displaying your current location coordinates, routing details, and status updates directly to your personalized network circle.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Final CTA Banner -->
-    <section id="download" class="py-16 bg-brand-700 text-white relative overflow-hidden">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Step into a safer tomorrow, today.</h2>
-            <p class="mt-4 text-brand-100 max-w-xl mx-auto text-lg">Join thousands of women who navigate their daily life with absolute peace of mind.</p>
-            <div class="mt-8 flex flex-wrap justify-center gap-4">
-                <a href="app.apk" download aria-label="Download ShaktiSetu APK file" onclick="analyticsTrack('download_apk')" class="bg-black hover:bg-neutral-900 transition text-white px-6 py-3 rounded-xl flex items-center text-left gap-3 border border-neutral-700 w-48">
-                    <i data-lucide="download" class="w-6 h-6"></i>
-                    <div>
-                        <p class="text-[10px] text-gray-400 uppercase">Direct Download</p>
-                        <p class="text-sm font-bold -mt-0.5">Download APK</p>
-                    </div>
+            <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Join the community today.</h2>
+            <p class="text-slate-300 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
+                Empower yourself and the women around you. ShaktiSetu is 100% free forever, because safety is a right, not a luxury.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="ShaktiSetu.apk" class="btn-glow w-full sm:w-auto bg-white text-black px-10 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform flex items-center justify-center gap-2">
+                    <i data-lucide="download" class="w-5 h-5"></i>
+                    Get the App Free
                 </a>
             </div>
+            <p class="mt-6 text-sm text-slate-500">Available for all Android smartphones.</p>
         </div>
-        <div class="absolute inset-0 bg-radial-gradient from-brand-600 to-brand-800 opacity-50 pointer-events-none"></div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-4 gap-8">
-            <div class="space-y-4">
-                <div class="flex items-center space-x-2 text-white">
-                    <div class="bg-brand-500 p-1.5 rounded-lg"><i data-lucide="shield" class="w-5 h-5"></i></div>
-                    <span class="text-lg font-bold">ShaktiSetu</span>
+    <footer class="border-t border-white/[0.05] bg-[#050505] pt-16 pb-8">
+        <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+            <div class="col-span-1 md:col-span-2">
+                <div class="flex items-center gap-2 mb-4">
+                    <i data-lucide="shield-check" class="w-6 h-6 text-brand-500"></i>
+                    <span class="font-bold text-xl tracking-tight text-white">ShaktiSetu</span>
                 </div>
-                <p class="text-xs">Building bridges of mutual security, support, and community network resources for women everywhere.</p>
+                <p class="text-slate-400 text-sm max-w-sm leading-relaxed">
+                    A community-driven platform dedicated to making our streets, commutes, and daily lives safer for every woman.
+                </p>
+                <div class="flex gap-4 mt-6">
+                    <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
+                </div>
             </div>
             <div>
-                <h4 class="text-white text-sm font-semibold mb-4">Product</h4>
-                <ul class="space-y-2 text-xs">
-                    <li><a href="#features" class="hover:text-white transition">Features</a></li>
-                    <li><a href="#how-it-works" class="hover:text-white transition">How it Works</a></li>
-                    <li><a href="#pricing" class="hover:text-white transition">Pricing Structure</a></li>
+                <h4 class="font-bold text-white mb-4">Learn More</h4>
+                <ul class="space-y-3 text-sm text-slate-400">
+                    <li><a href="#" class="hover:text-white transition-colors">How it Works</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Safety Tips</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Contact Support</a></li>
                 </ul>
             </div>
-            <div>
-                <h4 class="text-white text-sm font-semibold mb-4">Legal & Privacy</h4>
-                <ul class="space-y-2 text-xs">
-                    <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
-                    <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
-                    <li><a href="#" class="hover:text-white transition">Data Protection Policy</a></li>
+            <div id="privacy">
+                <h4 class="font-bold text-white mb-4">Trust & Privacy</h4>
+                <ul class="space-y-3 text-sm text-slate-400">
+                    <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Data Security</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Terms of Use</a></li>
                 </ul>
-            </div>
-            <div>
-                <h4 class="text-white text-sm font-semibold mb-4">Connect</h4>
-                <div class="flex gap-4 mb-4">
-                    <a href="#" aria-label="Twitter link" class="hover:text-white transition"><i data-lucide="twitter" class="w-5 h-5"></i></a>
-                    <a href="#" aria-label="Instagram link" class="hover:text-white transition"><i data-lucide="instagram" class="w-5 h-5"></i></a>
-                    <a href="#" aria-label="Mail link" class="hover:text-white transition"><i data-lucide="mail" class="w-5 h-5"></i></a>
-                </div>
-                <p class="text-xs">Support: contact@shaktisetu.app</p>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-gray-800 text-center text-xs">
-            &copy; 2026 ShaktiSetu. All rights reserved. Built with love and security in mind.
+        <div class="max-w-6xl mx-auto px-6 pt-8 border-t border-white/[0.05] flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <p>&copy; 2026 ShaktiSetu App. All rights reserved.</p>
+            <p>Made with ❤️ for a safer world.</p>
         </div>
     </footer>
 
-    <!-- Functional Scripts -->
     <script>
         // Initialize Icons
         lucide.createIcons();
 
-        // Mobile Menu Interactivity
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        // Glassy Nav Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('nav-glass');
+                navbar.classList.remove('bg-transparent', 'py-4');
+            } else {
+                navbar.classList.remove('nav-glass');
+                navbar.classList.add('bg-transparent', 'py-4');
+            }
         });
 
-        // Accessible FAQ Accordion Functionality
-        document.querySelectorAll('.faq-toggle').forEach(button => {
-            button.addEventListener('click', () => {
-                const item = button.parentElement;
-                const isExpanded = button.getAttribute('aria-expanded') === 'true';
-                
-                // Close other open accordions
-                document.querySelectorAll('.faq-toggle').forEach(otherBtn => {
-                    otherBtn.setAttribute('aria-expanded', 'false');
-                    otherBtn.parentElement.classList.remove('faq-active');
-                });
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
 
-                if (!isExpanded) {
-                    button.setAttribute('aria-expanded', 'true');
-                    item.classList.add('faq-active');
-                    window.analyticsTrack('faq_opened', { question: button.textContent.trim() });
-                }
+        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
             });
-        });
+        }, revealOptions);
+
+        revealElements.forEach(el => revealOnScroll.observe(el));
     </script>
 </body>
 </html>
