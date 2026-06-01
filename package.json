@@ -4,7 +4,7 @@
   "description": "ShaktiSetu - Your Safety, Your Power",
   "main": "index.html",
   "scripts": {
-    "build": "rm -rf public && mkdir -p public/dist && esbuild speed-insights.js --bundle --outfile=dist/speed-insights.min.js --format=iife --minify && cp index.html public/ && find . -maxdepth 1 -name '*.apk' -exec cp {} public/ \\; && cp -r dist/. public/dist/",
+    "build": "node scripts/build.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
