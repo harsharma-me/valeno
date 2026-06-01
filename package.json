@@ -1,0 +1,27 @@
+{
+  "name": "shaktisetu-launch",
+  "version": "1.0.0",
+  "description": "ShaktiSetu - Your Safety, Your Power",
+  "main": "index.html",
+  "scripts": {
+    "build": "esbuild speed-insights.js --bundle --outfile=dist/speed-insights.min.js --format=iife --minify",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harsharma-me/ShaktiSetu_Launch.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/harsharma-me/ShaktiSetu_Launch/issues"
+  },
+  "homepage": "https://github.com/harsharma-me/ShaktiSetu_Launch#readme",
+  "dependencies": {
+    "@vercel/speed-insights": "^2.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.0"
+  }
+}
