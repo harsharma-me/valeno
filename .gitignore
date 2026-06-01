@@ -3,6 +3,7 @@ node_modules/
 
 # Build output is committed to repo for static deployment
 # dist/
+public/
 
 # Logs
 *.log
