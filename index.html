@@ -3,256 +3,1151 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ShaktiSetu — Peace of Mind</title>
+  <title>ShaktiSetu — Peace of Mind, in the Palm of Your Hand</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
+
   <style>
     :root {
-      --bg: #0b0712;
-      --card-bg: rgba(26, 17, 39, 0.7);
-      --card-border: rgba(244, 63, 94, 0.2);
+      --bg: #09060f;
+      --card-bg: rgba(22, 14, 34, 0.72);
+      --card-border: rgba(244, 63, 94, 0.22);
       --primary: #f43f5e;
+      --primary-glow: rgba(244, 63, 94, 0.4);
+      --secondary: #8b5cf6;
+      --emerald: #10b981;
       --text: #f8fafc;
       --text-muted: #94a3b8;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html, body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: var(--font-body);
       overflow-x: hidden;
       min-height: 100vh;
+      cursor: default;
     }
 
+    /* Kinetic Custom Cursor */
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      position: fixed;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 14px var(--primary);
+    }
+    .cursor-ring {
+      width: 38px;
+      height: 38px;
+      border: 1.5px solid rgba(244, 63, 94, 0.45);
+      position: fixed;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, border-color 0.2s;
+    }
+
+    /* Ambient Background Elements */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      width: 650px;
+      height: 650px;
+      border-radius: 50%;
+      filter: blur(140px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.28;
+      animation: floatGlow 18s ease-in-out infinite alternate;
+    }
+    .glow-1 { top: -140px; right: -120px; background: #e11d48; }
+    .glow-2 { bottom: -120px; left: -140px; background: #7c3aed; }
+    .glow-3 { top: 45%; left: 45%; background: #be123c; opacity: 0.15; }
+
+    @keyframes floatGlow {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-50px, 60px) scale(1.15); }
+    }
+
+    /* Smooth Lerp Virtual Viewport */
+    #viewport {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 10;
+    }
+    #scroll-content {
+      will-change: transform;
+      transform-origin: center top;
+    }
+
+    /* Navigation Bar */
     header {
-      position: sticky;
-      top: 16px;
-      margin: 0 auto;
-      width: calc(100% - 32px);
-      max-width: 1100px;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      width: calc(100% - 40px);
+      max-width: 1140px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 24px;
-      background: rgba(18, 11, 28, 0.85);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 12px 26px;
+      background: rgba(18, 11, 28, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 99px;
-      z-index: 50;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
     }
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
       text-decoration: none;
       color: #fff;
-      font-family: 'Space Grotesk', sans-serif;
+    }
+    .brand-text {
+      font-family: var(--font-heading);
+      font-size: 1.45rem;
       font-weight: 700;
-      font-size: 1.2rem;
+      letter-spacing: -0.02em;
     }
-    .brand-icon {
-      width: 34px;
-      height: 34px;
-      background: linear-gradient(135deg, #f43f5e, #be123c);
-      border-radius: 10px;
+    .brand-text span {
+      background: linear-gradient(135deg, #f43f5e, #fb7185);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    nav {
       display: flex;
-      align-items: center;
-      justify-content: center;
+      gap: 30px;
     }
-    .brand span { color: #f43f5e; }
-    nav { display: flex; gap: 24px; }
-    nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
-    nav a:hover { color: #fff; }
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav a:hover {
+      color: #fff;
+    }
     .cta-btn {
-      padding: 8px 18px;
+      padding: 10px 22px;
       background: linear-gradient(135deg, #f43f5e, #e11d48);
       color: #fff;
       border-radius: 99px;
       text-decoration: none;
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
+      box-shadow: 0 8px 24px rgba(244, 63, 94, 0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(244, 63, 94, 0.6);
     }
 
-    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-    
+    /* Container Utility */
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+    }
+
+    /* HERO SECTION */
     .hero {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
-      padding: 90px 20px 50px;
+      padding: 150px 24px 60px;
+      position: relative;
     }
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 16px;
+      padding: 8px 20px;
       background: rgba(244, 63, 94, 0.12);
-      border: 1px solid rgba(244, 63, 94, 0.3);
+      border: 1px solid rgba(244, 63, 94, 0.35);
       border-radius: 99px;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: #fb7185;
+      margin-bottom: 28px;
+      box-shadow: 0 4px 20px rgba(244, 63, 94, 0.15);
+    }
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.8rem, 6.5vw, 5.2rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
       margin-bottom: 24px;
     }
-    .hero h1 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2.3rem, 6vw, 4.2rem);
-      line-height: 1.15;
-      margin-bottom: 18px;
-    }
-    .hero h1 span {
-      background: linear-gradient(135deg, #f43f5e, #fda4af);
+    .hero-title span {
+      background: linear-gradient(135deg, #f43f5e 20%, #fb7185 70%, #fda4af);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .hero p {
+    .hero-sub {
+      font-size: clamp(1.05rem, 2vw, 1.25rem);
       color: var(--text-muted);
-      max-width: 620px;
-      margin: 0 auto 32px;
-      font-size: 1.05rem;
+      max-width: 660px;
       line-height: 1.6;
+      margin-bottom: 38px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-secondary {
+      padding: 12px 28px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 99px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.25);
     }
 
-    .phone-preview {
-      width: 310px;
-      margin: 20px auto 70px;
-      background: #150d22;
-      border: 2px solid rgba(244, 63, 94, 0.4);
-      border-radius: 40px;
-      padding: 16px;
-      box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 40px rgba(244, 63, 94, 0.2);
+    /* 3D INTERACTIVE PHONE SHOWCASE */
+    .showcase-stage {
+      padding: 40px 0 110px;
+      perspective: 1200px;
+      display: flex;
+      justify-content: center;
     }
-    .phone-inner {
-      background: #0f0818;
-      border-radius: 30px;
-      padding: 20px 16px;
+    .phone-container {
+      width: 340px;
+      background: rgba(22, 14, 34, 0.85);
+      border: 2px solid rgba(244, 63, 94, 0.35);
+      border-radius: 46px;
+      padding: 14px;
+      box-shadow: 0 35px 80px rgba(0, 0, 0, 0.85), 0 0 50px rgba(244, 63, 94, 0.2);
+      transform-style: preserve-3d;
+      transition: transform 0.15s ease-out;
+      position: relative;
+    }
+    .phone-notch {
+      width: 110px;
+      height: 22px;
+      background: #09060f;
+      border-radius: 0 0 16px 16px;
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+    }
+    .phone-screen {
+      background: linear-gradient(180deg, #170c24 0%, #0d0617 100%);
+      border-radius: 36px;
+      padding: 24px 18px;
+      min-height: 560px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       border: 1px solid rgba(255,255,255,0.06);
     }
-    .sos-circle {
-      width: 110px;
-      height: 110px;
+    .phone-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #94a3b8;
+      padding-top: 6px;
+    }
+    .status-protected {
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background: #10b981;
       border-radius: 50%;
-      background: radial-gradient(circle, #fb7185, #e11d48 60%, #9f1239);
-      margin: 24px auto;
+      box-shadow: 0 0 8px #10b981;
+    }
+    .user-greeting {
+      margin-top: 22px;
+    }
+    .user-greeting h4 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .user-greeting p {
+      font-size: 0.82rem;
+      color: #94a3b8;
+    }
+    .phone-widgets {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 18px 0;
+    }
+    .widget-item {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .widget-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: rgba(244, 63, 94, 0.15);
+      color: #f43f5e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+    .widget-info h5 {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .widget-info p {
+      font-size: 0.7rem;
+      color: #94a3b8;
+    }
+
+    /* THE PULSING SOS BUTTON */
+    .sos-interactive-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 15px 0 20px;
+      position: relative;
+    }
+    .sos-outer-ring {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: rgba(244, 63, 94, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      animation: sosPulse 2.4s ease-in-out infinite;
+    }
+    .sos-btn {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fb7185, #e11d48 60%, #9f1239);
+      border: 3px solid rgba(255, 255, 255, 0.3);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       color: white;
+      box-shadow: 0 10px 30px rgba(225, 29, 72, 0.6);
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .sos-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 14px 40px rgba(225, 29, 72, 0.85);
+    }
+    .sos-btn:active {
+      transform: scale(0.96);
+    }
+    .sos-btn span {
+      font-family: var(--font-heading);
       font-weight: 800;
-      font-size: 1.3rem;
-      box-shadow: 0 0 35px rgba(244, 63, 94, 0.6);
+      font-size: 1.4rem;
+      letter-spacing: 0.05em;
+    }
+    .sos-caption {
+      font-size: 0.74rem;
+      color: #cbd5e1;
+      text-align: center;
+      margin-top: 14px;
+      line-height: 1.4;
     }
 
-    .stats {
+    @keyframes sosPulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4); }
+      50% { transform: scale(1.08); box-shadow: 0 0 0 20px rgba(244, 63, 94, 0); }
+    }
+
+    /* STATS STRIP */
+    .stats-strip {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 90px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin: 20px auto 100px;
     }
     .stat-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 24px;
+      border-radius: 24px;
+      padding: 30px 24px;
       text-align: center;
+      backdrop-filter: blur(16px);
+      transition: transform 0.3s, border-color 0.3s;
     }
-    .stat-card h3 {
-      font-size: 2.2rem;
-      font-family: 'Space Grotesk', sans-serif;
-      color: #fb7185;
-      margin-bottom: 4px;
+    .stat-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(244, 63, 94, 0.45);
+    }
+    .stat-num {
+      font-family: var(--font-heading);
+      font-size: 2.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #fb7185);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 500;
     }
 
+    /* PARALLAX HORIZONTAL TICKER */
+    .kinetic-strip {
+      width: 100vw;
+      margin-left: calc(-50vw + 50%);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 24px 0;
+      background: rgba(244, 63, 94, 0.05);
+      border-top: 1px solid rgba(244, 63, 94, 0.15);
+      border-bottom: 1px solid rgba(244, 63, 94, 0.15);
+      margin-bottom: 110px;
+    }
+    .kinetic-inner {
+      display: inline-flex;
+      gap: 40px;
+      will-change: transform;
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    .kinetic-inner span {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .kinetic-inner span i {
+      color: #f43f5e;
+      font-size: 0.8rem;
+    }
+
+    /* SECTION TITLES */
+    .section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 55px;
+    }
+    .section-header h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+    .section-header p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    /* 3D TILT FEATURE CARDS */
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      margin-bottom: 90px;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      margin-bottom: 120px;
+      perspective: 1000px;
     }
-    .card {
+    .feature-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 28px;
+      border-radius: 28px;
+      padding: 38px 32px;
+      backdrop-filter: blur(20px);
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.15s ease-out;
+      transform-style: preserve-3d;
+      position: relative;
     }
-    .card h3 { margin-bottom: 10px; font-size: 1.2rem; }
-    .card p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; }
-
-    footer {
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding: 40px 0;
-      text-align: center;
+    .feature-card:hover {
+      border-color: rgba(244, 63, 94, 0.5);
+      box-shadow: 0 20px 45px rgba(244, 63, 94, 0.15);
+    }
+    .feature-icon-wrapper {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(139, 92, 246, 0.2));
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #fb7185;
+      margin-bottom: 24px;
+      transform: translateZ(30px);
+    }
+    .feature-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      transform: translateZ(20px);
+    }
+    .feature-card p {
       color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.6;
+      transform: translateZ(10px);
+    }
+
+    /* STEPS SECTION */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 120px;
+    }
+    .step-card {
+      background: rgba(22, 14, 32, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 34px 28px;
+      position: relative;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .step-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(244, 63, 94, 0.35);
+    }
+    .step-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #f43f5e;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 1.2rem;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 18px rgba(244, 63, 94, 0.5);
+    }
+    .step-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+    .step-card p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    /* CTA BANNER */
+    .cta-banner {
+      background: radial-gradient(circle at 50% 0%, rgba(244, 63, 94, 0.25), rgba(15, 10, 24, 0.92) 75%);
+      border: 1px solid rgba(244, 63, 94, 0.32);
+      border-radius: 36px;
+      padding: 70px 32px;
+      text-align: center;
+      margin-bottom: 110px;
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-banner h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .cta-banner p {
+      color: var(--text-muted);
+      max-width: 580px;
+      margin: 0 auto 36px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    .download-btn {
+      padding: 16px 36px;
+      background: linear-gradient(135deg, #f43f5e, #e11d48);
+      color: white;
+      text-decoration: none;
+      border-radius: 99px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 35px rgba(244, 63, 94, 0.5);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .download-btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 14px 45px rgba(244, 63, 94, 0.7);
+    }
+    .cta-banner small {
+      display: block;
+      color: #64748b;
+      margin-top: 18px;
       font-size: 0.85rem;
     }
 
-    @media (max-width: 650px) {
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 60px 0 35px;
+      color: var(--text-muted);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 45px;
+    }
+    .footer-brand p {
+      margin-top: 14px;
+      max-width: 320px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .footer-col h4 {
+      color: #fff;
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-col a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover {
+      color: #fff;
+    }
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 26px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
       nav { display: none; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+      .cursor-dot, .cursor-ring { display: none; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Kinetic Cursor Elements -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Background Animated Mesh & Glows -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Header Navigation -->
   <header>
     <a href="#" class="brand">
-      <div class="brand-icon"><i class="fa-solid fa-shield-heart"></i></div>
-      Shakti<span>Setu</span>
+      <div class="brand-text">Shakti<span>Setu</span></div>
     </a>
     <nav>
       <a href="#features">Features</a>
       <a href="#how-it-works">How it Works</a>
+      <a href="#privacy">Privacy</a>
     </nav>
-    <a href="#download" class="cta-btn">Get App</a>
+    <a href="#download" class="cta-btn">Get App — Free</a>
   </header>
 
-  <section class="container hero">
-    <div class="badge"><i class="fa-solid fa-heart"></i> Built for women, trusted by families</div>
-    <h1>Peace of mind,<br><span>in the palm of your hand.</span></h1>
-    <p>An easy-to-use app that instantly connects you to emergency support, verified safe routes, and your closest friends when you need them most.</p>
+  <!-- Virtual Lerp Viewport -->
+  <div id="viewport">
+    <div id="scroll-content">
 
-    <div class="phone-preview">
-      <div class="phone-inner">
-        <p style="font-size: 0.8rem; color: #10b981;">● Protected</p>
-        <h4 style="margin: 12px 0 4px;">Hi, Priya 👋</h4>
-        <p style="font-size: 0.8rem; color: #94a3b8;">You are safe and connected.</p>
-        <div class="sos-circle">
-          <i class="fa-solid fa-bell" style="font-size: 1rem; margin-bottom: 2px;"></i>
-          SOS
+      <!-- Hero Section -->
+      <section class="hero container">
+        <div class="badge">
+          <i class="fa-solid fa-heart"></i> Built for women, trusted by families
         </div>
-        <p style="font-size: 0.75rem; color: #cbd5e1;">Press & hold to alert family</p>
-      </div>
-    </div>
-  </section>
+        <h1 class="hero-title">
+          Peace of mind,<br>
+          <span>in the palm of your hand.</span>
+        </h1>
+        <p class="hero-sub">
+          An intuitive safety ecosystem that instantly connects you to emergency responders, verified safe routes, and your closest circle when seconds matter.
+        </p>
+        <div class="hero-actions">
+          <a href="#download" class="cta-btn" style="padding: 13px 32px; font-size: 1rem;">
+            Download for Free <i class="fa-solid fa-arrow-down" style="margin-left: 6px;"></i>
+          </a>
+          <a href="#how-it-works" class="btn-secondary">
+            <i class="fa-regular fa-circle-play"></i> See How It Works
+          </a>
+        </div>
+      </section>
 
-  <div class="container stats">
-    <div class="stat-card"><h3>Instant</h3><p>SOS Alerts</p></div>
-    <div class="stat-card"><h3>100%</h3><p>Private & Un-tracked</p></div>
-    <div class="stat-card"><h3>24/7</h3><p>Community Grid</p></div>
-    <div class="stat-card"><h3>Free</h3><p>Forever</p></div>
+      <!-- 3D Interactive Phone Mockup -->
+      <div class="container showcase-stage">
+        <div class="phone-container" id="interactivePhone">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div>
+              <div class="phone-status">
+                <span>9:41 AM</span>
+                <div class="status-protected">
+                  <div class="status-dot"></div>
+                  <span>Protected</span>
+                </div>
+                <div><i class="fa-solid fa-wifi"></i> <i class="fa-solid fa-battery-full" style="margin-left: 4px;"></i></div>
+              </div>
+
+              <div class="user-greeting">
+                <h4>Hi, Priya 👋</h4>
+                <p>You are safe and connected.</p>
+              </div>
+
+              <div class="phone-widgets">
+                <div class="widget-item">
+                  <div class="widget-icon"><i class="fa-solid fa-location-dot"></i></div>
+                  <div class="widget-info">
+                    <h5>Current Location</h5>
+                    <p>Shared only with Family</p>
+                  </div>
+                </div>
+                <div class="widget-item">
+                  <div class="widget-icon"><i class="fa-solid fa-users-viewfinder"></i></div>
+                  <div class="widget-info">
+                    <h5>Trusted Circle</h5>
+                    <p>Mom &amp; Rahul are active</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pulsing SOS Button -->
+            <div class="sos-interactive-container">
+              <div class="sos-outer-ring">
+                <div class="sos-btn" id="sosBtn">
+                  <i class="fa-solid fa-bell" style="font-size: 1.1rem; margin-bottom: 2px;"></i>
+                  <span>SOS</span>
+                </div>
+              </div>
+              <p class="sos-caption">Press &amp; hold for 2 seconds<br>to alert your primary circle.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Statistics Strip -->
+      <div class="container stats-strip">
+        <div class="stat-card">
+          <div class="stat-num">Instant</div>
+          <div class="stat-label">SOS Alerts to Family</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Private &amp; Un-tracked</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">24/7</div>
+          <div class="stat-label">Community Safety Grid</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">Free</div>
+          <div class="stat-label">Forever for Everyone</div>
+        </div>
+      </div>
+
+      <!-- Differential Parallax Kinetic Ticker -->
+      <div class="kinetic-strip">
+        <div class="kinetic-inner" id="kineticTicker">
+          <span><i class="fa-solid fa-sparkles"></i> ONE-TAP EMERGENCY ALERTS</span>
+          <span><i class="fa-solid fa-sparkles"></i> VERIFIED SAFE ROUTES</span>
+          <span><i class="fa-solid fa-sparkles"></i> LIVE TRUSTED CIRCLE</span>
+          <span><i class="fa-solid fa-sparkles"></i> ZERO DATA PROFILING</span>
+          <span><i class="fa-solid fa-sparkles"></i> GUARANTEED PRIVACY BY DESIGN</span>
+          <span><i class="fa-solid fa-sparkles"></i> ONE-TAP EMERGENCY ALERTS</span>
+          <span><i class="fa-solid fa-sparkles"></i> VERIFIED SAFE ROUTES</span>
+        </div>
+      </div>
+
+      <!-- Features Section -->
+      <section class="container" id="features">
+        <div class="section-header">
+          <h2>Features that care for you.</h2>
+          <p>Engineered to be simple and utterly dependable. In high-stress situations, every millisecond counts.</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card" data-tilt>
+            <div class="feature-icon-wrapper"><i class="fa-solid fa-tower-broadcast"></i></div>
+            <h3>One-Tap Emergency Alert</h3>
+            <p>If you feel unsafe, press the SOS button. Your exact coordinates, battery level, and an audio snapshot broadcast instantly to your trusted circle.</p>
+          </div>
+
+          <div class="feature-card" data-tilt>
+            <div class="feature-icon-wrapper"><i class="fa-solid fa-route"></i></div>
+            <h3>Verified Safe Routes</h3>
+            <p>Instead of merely the shortest route, navigate along well-lit, active avenues verified continuously by community members.</p>
+          </div>
+
+          <div class="feature-card" data-tilt>
+            <div class="feature-icon-wrapper"><i class="fa-solid fa-user-shield"></i></div>
+            <h3>Private by Design</h3>
+            <p>Your location belongs to you. Zero passive tracking, zero data brokering. Coordinates broadcast only when YOU activate protection.</p>
+          </div>
+
+          <div class="feature-card" data-tilt>
+            <div class="feature-icon-wrapper"><i class="fa-solid fa-heart-pulse"></i></div>
+            <h3>Your Trusted Circle</h3>
+            <p>Add up to 5 close friends or family members. They automatically get notified when you begin a late commute and check in upon safe arrival.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- How It Works Section -->
+      <section class="container" id="how-it-works">
+        <div class="section-header">
+          <h2>Simple to use when seconds matter.</h2>
+          <p>Setup takes less than 2 minutes with no complicated registration.</p>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <h3>Download &amp; Signup</h3>
+            <p>Download the free app and verify your mobile number. No subscription plans or confusing forms.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <h3>Add Your Family</h3>
+            <p>Pick up to 5 trusted contacts straight from your address book to act as your primary safety net.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <h3>Move Fearlessly</h3>
+            <p>Rely on SafeRoute for evening travel or keep quick widgets ready. Complete safety is one tap away.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Download Banner -->
+      <section class="container" id="download">
+        <div class="cta-banner">
+          <h2>Join the community today.</h2>
+          <p>Empower yourself and the people you care about. ShaktiSetu is 100% free forever, because safety is a basic human right.</p>
+          <a href="#" class="download-btn">
+            <i class="fa-brands fa-android" style="font-size: 1.3rem;"></i>
+            Get the App Free
+          </a>
+          <small>Available for Android smartphones running Android 8.0+</small>
+        </div>
+      </section>
+
+      <!-- Footer Section -->
+      <footer class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="brand">
+              <div class="brand-text">Shakti<span>Setu</span></div>
+            </div>
+            <p>A community-driven safety ecosystem dedicated to making our routes, commutes, and daily routines secure for every woman.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Learn More</h4>
+            <ul>
+              <li><a href="#how-it-works">How it Works</a></li>
+              <li><a href="#">Safety Guidelines</a></li>
+              <li><a href="#">About the Mission</a></li>
+              <li><a href="#">Contact Support</a></li>
+            </ul>
+          </div>
+          <div class="footer-col" id="privacy">
+            <h4>Trust &amp; Privacy</h4>
+            <ul>
+              <li><a href="#">Privacy Architecture</a></li>
+              <li><a href="#">Zero-Log Guarantee</a></li>
+              <li><a href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 ShaktiSetu App. All rights reserved.</p>
+          <p>Made with &hearts; for a safer tomorrow.</p>
+        </div>
+      </footer>
+
+    </div>
   </div>
 
-  <section class="container" id="features">
-    <div class="features-grid">
-      <div class="card">
-        <h3>One-Tap Emergency Alert</h3>
-        <p>Location coordinates, battery level, and audio snapshot sent instantly to your circle.</p>
-      </div>
-      <div class="card">
-        <h3>Verified Safe Routes</h3>
-        <p>Navigate through well-lit streets verified by women in the community.</p>
-      </div>
-      <div class="card">
-        <h3>Private by Design</h3>
-        <p>Zero passive tracking. Your data is shared only when you choose to activate it.</p>
-      </div>
-    </div>
-  </section>
+  <script>
+    (function() {
+      'use strict';
 
-  <footer>
-    <p>© 2026 ShaktiSetu App. All rights reserved.</p>
-  </footer>
+      /* --- 1. SMOOTH INERTIA LERP SCROLL ENGINE --- */
+      const viewport = document.getElementById('viewport');
+      const content = document.getElementById('scroll-content');
+      const ticker = document.getElementById('kineticTicker');
 
+      let currentY = 0;
+      let targetY = 0;
+      const ease = 0.075; // Aerodynamic damping factor
+      let lastY = 0;
+      let velocity = 0;
+
+      function updateDocumentHeight() {
+        document.body.style.height = `${content.getBoundingClientRect().height}px`;
+      }
+      window.addEventListener('resize', updateDocumentHeight);
+      window.addEventListener('load', updateDocumentHeight);
+
+      window.addEventListener('scroll', () => {
+        targetY = window.scrollY;
+      }, { passive: true });
+
+      function renderLoop(time) {
+        // Linear interpolation
+        currentY += (targetY - currentY) * ease;
+        velocity = currentY - lastY;
+        lastY = currentY;
+
+        // Apply hardware-accelerated transform
+        content.style.transform = `translate3d(0, -${currentY.toFixed(2)}px, 0)`;
+
+        // Horizontal Parallax Ticker Translation
+        if (ticker) {
+          ticker.style.transform = `translate3d(${-currentY * 0.4}px, 0, 0)`;
+        }
+
+        requestAnimationFrame(renderLoop);
+      }
+      requestAnimationFrame(renderLoop);
+
+      /* --- 2. KINETIC MOUSE CURSOR --- */
+      const cursorDot = document.getElementById('cursorDot');
+      const cursorRing = document.getElementById('cursorRing');
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let ringX = mouseX, ringY = mouseY;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        if (cursorDot) {
+          cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+        }
+      });
+
+      function cursorLoop() {
+        if (cursorRing) {
+          ringX += (mouseX - ringX) * 0.16;
+          ringY += (mouseY - ringY) * 0.16;
+          cursorRing.style.transform = `translate(${ringX}px, ${ringY}px)`;
+        }
+        requestAnimationFrame(cursorLoop);
+      }
+      cursorLoop();
+
+      /* --- 3. 3D PERSPECTIVE TILT --- */
+      const phone = document.getElementById('interactivePhone');
+
+      window.addEventListener('mousemove', (e) => {
+        const cx = window.innerWidth / 2;
+        const cy = window.innerHeight / 2;
+        const dx = (e.clientX - cx) / cx;
+        const dy = (e.clientY - cy) / cy;
+
+        if (phone) {
+          phone.style.transform = `rotateY(${dx * 16}deg) rotateX(${-dy * 16}deg)`;
+        }
+      });
+
+      document.querySelectorAll('[data-tilt]').forEach((card) => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          card.style.transform = `perspective(800px) rotateY(${x * 0.07}deg) rotateX(${-y * 0.07}deg) translateY(-5px)`;
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = `perspective(800px) rotateY(0deg) rotateX(0deg) translateY(0px)`;
+        });
+      });
+
+      /* --- 4. CONSTELLATION MESH CANVAS --- */
+      const canvas = document.getElementById('bg-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      const particleCount = 55;
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.45,
+          vy: (Math.random() - 0.5) * 0.45,
+          radius: Math.random() * 2 + 1
+        });
+      }
+
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(244, 63, 94, 0.4)';
+        ctx.strokeStyle = 'rgba(244, 63, 94, 0.08)';
+
+        for (let i = 0; i < particleCount; i++) {
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0) p.x = canvas.width;
+          if (p.x > canvas.width) p.x = 0;
+          if (p.y < 0) p.y = canvas.height;
+          if (p.y > canvas.height) p.y = 0;
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+
+          for (let j = i + 1; j < particleCount; j++) {
+            const p2 = particles[j];
+            const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+            if (dist < 120) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animateParticles);
+      }
+      animateParticles();
+
+      /* --- 5. WEB AUDIO INTERACTIVE FEEDBACK --- */
+      const sosBtn = document.getElementById('sosBtn');
+      let audioCtx = null;
+
+      function playTone(freq, type = 'sine', duration = 0.2) {
+        try {
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+          
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          
+          gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+          
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          
+          osc.start();
+          osc.stop(audioCtx.currentTime + duration);
+        } catch (e) {}
+      }
+
+      if (sosBtn) {
+        sosBtn.addEventListener('mouseenter', () => playTone(540, 'sine', 0.12));
+        sosBtn.addEventListener('mousedown', () => {
+          playTone(880, 'triangle', 0.35);
+          setTimeout(() => playTone(1200, 'sine', 0.25), 140);
+        });
+      }
+
+    })();
+  </script>
 </body>
 </html>
