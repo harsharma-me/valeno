@@ -3,1068 +3,256 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ShaktiSetu — Peace of Mind, in the Palm of Your Hand</title>
+  <title>ShaktiSetu — Peace of Mind</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
   <style>
     :root {
-      --bg: #09060f;
-      --card-bg: rgba(26, 17, 39, 0.65);
-      --card-border: rgba(244, 63, 94, 0.18);
+      --bg: #0b0712;
+      --card-bg: rgba(26, 17, 39, 0.7);
+      --card-border: rgba(244, 63, 94, 0.2);
       --primary: #f43f5e;
-      --primary-glow: rgba(244, 63, 94, 0.35);
-      --secondary: #8b5cf6;
-      --amber: #fbbf24;
-      --emerald: #10b981;
       --text: #f8fafc;
       --text-muted: #94a3b8;
-      --font-heading: 'Space Grotesk', sans-serif;
-      --font-body: 'Plus Jakarta Sans', sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-font-smoothing: antialiased;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: var(--font-body);
+      font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
-      overflow-y: scroll;
-      cursor: default;
+      min-height: 100vh;
     }
 
-    /* Custom Kinetic Cursor */
-    .cursor-dot {
-      width: 8px;
-      height: 8px;
-      background: #f43f5e;
-      position: fixed;
-      top: 0; left: 0;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      box-shadow: 0 0 14px #f43f5e;
-    }
-    .cursor-ring {
-      width: 36px;
-      height: 36px;
-      border: 1.5px solid rgba(244, 63, 94, 0.4);
-      position: fixed;
-      top: 0; left: 0;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: width 0.25s, height 0.25s, border-color 0.25s;
-    }
-
-    /* Ambient Canvas & Glow Gradients */
-    #bg-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .ambient-glow {
-      position: fixed;
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      filter: blur(140px);
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.25;
-      animation: floatGlow 18s ease-in-out infinite alternate;
-    }
-    .glow-1 { top: -150px; right: -100px; background: #e11d48; }
-    .glow-2 { bottom: -100px; left: -150px; background: #7c3aed; }
-    .glow-3 { top: 50%; left: 45%; background: #be123c; opacity: 0.15; }
-
-    @keyframes floatGlow {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(-40px, 60px) scale(1.15); }
-    }
-
-    /* Smooth Lerp Scroll Virtual Viewport */
-    #viewport {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: 10;
-    }
-    #scroll-content {
-      will-change: transform;
-      transform-origin: center top;
-    }
-
-    /* Header Nav */
     header {
-      position: fixed;
-      top: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 100;
-      width: calc(100% - 48px);
-      max-width: 1200px;
+      position: sticky;
+      top: 16px;
+      margin: 0 auto;
+      width: calc(100% - 32px);
+      max-width: 1100px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 28px;
-      background: rgba(15, 10, 24, 0.7);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      padding: 12px 24px;
+      background: rgba(18, 11, 28, 0.85);
+      backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 99px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      z-index: 50;
     }
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       text-decoration: none;
       color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
     }
     .brand-icon {
-      width: 38px;
-      height: 38px;
+      width: 34px;
+      height: 34px;
       background: linear-gradient(135deg, #f43f5e, #be123c);
-      border-radius: 12px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
-      color: white;
-      box-shadow: 0 4px 15px rgba(244, 63, 94, 0.4);
     }
-    .brand-text {
-      font-family: var(--font-heading);
-      font-size: 1.35rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-    .brand-text span {
-      background: linear-gradient(135deg, #f43f5e, #fb7185);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    nav {
-      display: flex;
-      gap: 32px;
-    }
-    nav a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.92rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    nav a:hover {
-      color: #fff;
-    }
+    .brand span { color: #f43f5e; }
+    nav { display: flex; gap: 24px; }
+    nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; }
+    nav a:hover { color: #fff; }
     .cta-btn {
-      padding: 10px 22px;
+      padding: 8px 18px;
       background: linear-gradient(135deg, #f43f5e, #e11d48);
       color: #fff;
       border-radius: 99px;
       text-decoration: none;
       font-weight: 600;
-      font-size: 0.88rem;
-      box-shadow: 0 8px 25px rgba(244, 63, 94, 0.4);
-      transition: transform 0.2s, box-shadow 0.2s;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-    .cta-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(244, 63, 94, 0.6);
+      font-size: 0.85rem;
     }
 
-    /* HUD Telemetry */
-    .hud-telemetry {
-      position: fixed;
-      bottom: 24px;
-      left: 28px;
-      z-index: 90;
-      font-family: monospace;
-      font-size: 0.72rem;
-      color: rgba(244, 63, 94, 0.8);
-      background: rgba(15, 10, 24, 0.6);
-      padding: 8px 16px;
-      border-radius: 20px;
-      border: 1px solid rgba(244, 63, 94, 0.2);
-      backdrop-filter: blur(10px);
-      display: flex;
-      gap: 16px;
-      pointer-events: none;
-    }
-
-    /* Container Utility */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-      position: relative;
-    }
-
-    /* HERO SECTION */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+    
     .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
       text-align: center;
-      padding: 160px 24px 80px;
-      position: relative;
+      padding: 90px 20px 50px;
     }
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 20px;
-      background: rgba(244, 63, 94, 0.1);
+      padding: 6px 16px;
+      background: rgba(244, 63, 94, 0.12);
       border: 1px solid rgba(244, 63, 94, 0.3);
       border-radius: 99px;
-      font-size: 0.85rem;
-      font-weight: 600;
+      font-size: 0.82rem;
       color: #fb7185;
-      margin-bottom: 28px;
-      box-shadow: 0 4px 20px rgba(244, 63, 94, 0.15);
-    }
-    .badge i {
-      font-size: 0.8rem;
-    }
-    .hero-title {
-      font-family: var(--font-heading);
-      font-size: clamp(2.8rem, 7vw, 5.2rem);
-      font-weight: 800;
-      line-height: 1.08;
-      letter-spacing: -0.03em;
       margin-bottom: 24px;
     }
-    .hero-title span {
-      background: linear-gradient(135deg, #f43f5e 20%, #fb7185 70%, #fda4af);
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.3rem, 6vw, 4.2rem);
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #f43f5e, #fda4af);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .hero-sub {
-      font-size: clamp(1.05rem, 2vw, 1.3rem);
+    .hero p {
       color: var(--text-muted);
-      max-width: 660px;
+      max-width: 620px;
+      margin: 0 auto 32px;
+      font-size: 1.05rem;
       line-height: 1.6;
-      margin-bottom: 40px;
-    }
-    .hero-actions {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .btn-secondary {
-      padding: 12px 28px;
-      background: rgba(255, 255, 255, 0.05);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 99px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: background 0.2s, border-color 0.2s;
-    }
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.25);
     }
 
-    /* 3D INTERACTIVE PHONE SHOWCASE */
-    .showcase-stage {
-      padding: 60px 0 120px;
-      perspective: 1200px;
-      display: flex;
-      justify-content: center;
+    .phone-preview {
+      width: 310px;
+      margin: 20px auto 70px;
+      background: #150d22;
+      border: 2px solid rgba(244, 63, 94, 0.4);
+      border-radius: 40px;
+      padding: 16px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 40px rgba(244, 63, 94, 0.2);
     }
-    .phone-container {
-      width: 340px;
-      background: rgba(20, 13, 29, 0.85);
-      border: 2px solid rgba(244, 63, 94, 0.35);
-      border-radius: 46px;
-      padding: 14px;
-      box-shadow: 0 35px 80px rgba(0, 0, 0, 0.8), 0 0 50px rgba(244, 63, 94, 0.2);
-      transform-style: preserve-3d;
-      transition: transform 0.15s ease-out;
-      position: relative;
-    }
-    .phone-notch {
-      width: 110px;
-      height: 22px;
-      background: #09060f;
-      border-radius: 0 0 16px 16px;
-      position: absolute;
-      top: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 20;
-    }
-    .phone-screen {
-      background: linear-gradient(180deg, #160c22 0%, #0d0617 100%);
-      border-radius: 36px;
-      padding: 24px 18px;
-      min-height: 580px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+    .phone-inner {
+      background: #0f0818;
+      border-radius: 30px;
+      padding: 20px 16px;
       border: 1px solid rgba(255,255,255,0.06);
     }
-    .phone-status {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #94a3b8;
-      padding-top: 6px;
-    }
-    .status-protected {
-      color: #10b981;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      background: #10b981;
+    .sos-circle {
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
-      box-shadow: 0 0 8px #10b981;
-    }
-    .user-greeting {
-      margin-top: 24px;
-    }
-    .user-greeting h4 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: #fff;
-    }
-    .user-greeting p {
-      font-size: 0.82rem;
-      color: #94a3b8;
-    }
-
-    .phone-widgets {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin: 18px 0;
-    }
-    .widget-item {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .widget-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      background: rgba(244, 63, 94, 0.15);
-      color: #f43f5e;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.9rem;
-    }
-    .widget-info h5 {
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-    .widget-info p {
-      font-size: 0.7rem;
-      color: #94a3b8;
-    }
-
-    /* THE PULSING SOS BUTTON */
-    .sos-interactive-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 15px 0 20px;
-      position: relative;
-    }
-    .sos-outer-ring {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background: rgba(244, 63, 94, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      animation: sosPulse 2.4s ease-in-out infinite;
-    }
-    .sos-btn {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #fb7185, #e11d48 60%, #9f1239);
-      border: 3px solid rgba(255, 255, 255, 0.3);
+      background: radial-gradient(circle, #fb7185, #e11d48 60%, #9f1239);
+      margin: 24px auto;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       color: white;
-      box-shadow: 0 10px 30px rgba(225, 29, 72, 0.6);
-      cursor: pointer;
-      user-select: none;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    .sos-btn:hover {
-      transform: scale(1.04);
-      box-shadow: 0 14px 40px rgba(225, 29, 72, 0.85);
-    }
-    .sos-btn:active {
-      transform: scale(0.96);
-    }
-    .sos-btn span {
-      font-family: var(--font-heading);
       font-weight: 800;
-      font-size: 1.4rem;
-      letter-spacing: 0.05em;
-    }
-    .sos-caption {
-      font-size: 0.74rem;
-      color: #cbd5e1;
-      text-align: center;
-      margin-top: 14px;
-      line-height: 1.4;
+      font-size: 1.3rem;
+      box-shadow: 0 0 35px rgba(244, 63, 94, 0.6);
     }
 
-    @keyframes sosPulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.4); }
-      50% { transform: scale(1.08); box-shadow: 0 0 0 20px rgba(244, 63, 94, 0); }
-    }
-
-    /* STATS STRIP */
-    .stats-strip {
+    .stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      margin: 40px auto 120px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 90px;
     }
     .stat-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 30px 24px;
+      border-radius: 20px;
+      padding: 24px;
       text-align: center;
-      backdrop-filter: blur(16px);
-      transition: transform 0.3s, border-color 0.3s;
     }
-    .stat-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(244, 63, 94, 0.4);
-    }
-    .stat-num {
-      font-family: var(--font-heading);
-      font-size: 2.8rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, #fff, #fb7185);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 6px;
-    }
-    .stat-label {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      font-weight: 500;
+    .stat-card h3 {
+      font-size: 2.2rem;
+      font-family: 'Space Grotesk', sans-serif;
+      color: #fb7185;
+      margin-bottom: 4px;
     }
 
-    /* PARALLAX HORIZONTAL TICKER */
-    .kinetic-strip {
-      width: 100vw;
-      margin-left: calc(-50vw + 50%);
-      overflow: hidden;
-      white-space: nowrap;
-      padding: 24px 0;
-      background: rgba(244, 63, 94, 0.05);
-      border-top: 1px solid rgba(244, 63, 94, 0.15);
-      border-bottom: 1px solid rgba(244, 63, 94, 0.15);
-      margin-bottom: 120px;
-    }
-    .kinetic-inner {
-      display: inline-flex;
-      gap: 40px;
-      will-change: transform;
-      font-family: var(--font-heading);
-      font-size: 1.4rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: rgba(255, 255, 255, 0.6);
-    }
-    .kinetic-inner span {
-      display: inline-flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .kinetic-inner span i {
-      color: #f43f5e;
-      font-size: 0.8rem;
-    }
-
-    /* SECTION TITLES */
-    .section-header {
-      text-align: center;
-      max-width: 680px;
-      margin: 0 auto 60px;
-    }
-    .section-header h2 {
-      font-family: var(--font-heading);
-      font-size: clamp(2.2rem, 4vw, 3.2rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 14px;
-    }
-    .section-header p {
-      color: var(--text-muted);
-      font-size: 1.05rem;
-      line-height: 1.6;
-    }
-
-    /* 3D TILT FEATURE CARDS */
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 28px;
-      margin-bottom: 140px;
-      perspective: 1000px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-bottom: 90px;
     }
-    .feature-card {
+    .card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 28px;
-      padding: 38px 32px;
-      backdrop-filter: blur(20px);
-      transition: border-color 0.3s, box-shadow 0.3s;
-      transform-style: preserve-3d;
-      position: relative;
+      border-radius: 20px;
+      padding: 28px;
     }
-    .feature-card:hover {
-      border-color: rgba(244, 63, 94, 0.5);
-      box-shadow: 0 20px 45px rgba(244, 63, 94, 0.15);
-    }
-    .feature-icon-wrapper {
-      width: 60px;
-      height: 60px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(244, 63, 94, 0.2), rgba(139, 92, 246, 0.2));
-      border: 1px solid rgba(244, 63, 94, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      color: #fb7185;
-      margin-bottom: 24px;
-      transform: translateZ(30px);
-    }
-    .feature-card h3 {
-      font-family: var(--font-heading);
-      font-size: 1.45rem;
-      font-weight: 700;
-      margin-bottom: 14px;
-      transform: translateZ(20px);
-    }
-    .feature-card p {
-      color: var(--text-muted);
-      font-size: 0.98rem;
-      line-height: 1.6;
-      transform: translateZ(10px);
-    }
+    .card h3 { margin-bottom: 10px; font-size: 1.2rem; }
+    .card p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; }
 
-    /* STEPS SECTION */
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      margin-bottom: 140px;
-    }
-    .step-card {
-      background: rgba(22, 14, 32, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 24px;
-      padding: 34px 28px;
-      position: relative;
-      transition: transform 0.3s;
-    }
-    .step-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(244, 63, 94, 0.3);
-    }
-    .step-num {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #f43f5e;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-heading);
-      font-weight: 800;
-      font-size: 1.2rem;
-      margin-bottom: 22px;
-      box-shadow: 0 4px 18px rgba(244, 63, 94, 0.5);
-    }
-    .step-card h3 {
-      font-family: var(--font-heading);
-      font-size: 1.25rem;
-      margin-bottom: 10px;
-    }
-    .step-card p {
-      color: var(--text-muted);
-      font-size: 0.92rem;
-      line-height: 1.55;
-    }
-
-    /* CTA BANNER */
-    .cta-banner {
-      background: radial-gradient(circle at 50% 0%, rgba(244, 63, 94, 0.25), rgba(15, 10, 24, 0.9) 70%);
-      border: 1px solid rgba(244, 63, 94, 0.3);
-      border-radius: 36px;
-      padding: 70px 32px;
-      text-align: center;
-      margin-bottom: 120px;
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
-      position: relative;
-      overflow: hidden;
-    }
-    .cta-banner h2 {
-      font-family: var(--font-heading);
-      font-size: clamp(2.2rem, 5vw, 3.4rem);
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
-    .cta-banner p {
-      color: var(--text-muted);
-      max-width: 580px;
-      margin: 0 auto 36px;
-      font-size: 1.1rem;
-      line-height: 1.6;
-    }
-    .download-btn {
-      padding: 16px 36px;
-      background: linear-gradient(135deg, #f43f5e, #e11d48);
-      color: white;
-      text-decoration: none;
-      border-radius: 99px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 10px 35px rgba(244, 63, 94, 0.5);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .download-btn:hover {
-      transform: scale(1.03);
-      box-shadow: 0 14px 45px rgba(244, 63, 94, 0.7);
-    }
-    .cta-banner small {
-      display: block;
-      color: #64748b;
-      margin-top: 18px;
-      font-size: 0.85rem;
-    }
-
-    /* FOOTER */
     footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 70px 0 40px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 40px 0;
+      text-align: center;
       color: var(--text-muted);
-    }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 40px;
-      margin-bottom: 50px;
-    }
-    .footer-brand p {
-      margin-top: 14px;
-      max-width: 320px;
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
-    .footer-col h4 {
-      color: #fff;
-      font-family: var(--font-heading);
-      font-size: 1rem;
-      margin-bottom: 16px;
-    }
-    .footer-col ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .footer-col a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.2s;
-    }
-    .footer-col a:hover {
-      color: #fff;
-    }
-    .footer-bottom {
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      padding-top: 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       font-size: 0.85rem;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 650px) {
       nav { display: none; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
-      .hud-telemetry { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Kinetic Cursor -->
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
-  <!-- Background Canvas & Ambient Orbs -->
-  <canvas id="bg-canvas"></canvas>
-  <div class="ambient-glow glow-1"></div>
-  <div class="ambient-glow glow-2"></div>
-  <div class="ambient-glow glow-3"></div>
-
-  <!-- Fixed Top Header -->
   <header>
     <a href="#" class="brand">
-      <div class="brand-icon">
-        <i class="fa-solid fa-shield-hll sm:w-auto">
-                <i data-lucide="play-circle" class="w-5 h-5"></i> See How It Works
-            </a>
+      <div class="brand-icon"><i class="fa-solid fa-shield-heart"></i></div>
+      Shakti<span>Setu</span>
+    </a>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How it Works</a>
+    </nav>
+    <a href="#download" class="cta-btn">Get App</a>
+  </header>
+
+  <section class="container hero">
+    <div class="badge"><i class="fa-solid fa-heart"></i> Built for women, trusted by families</div>
+    <h1>Peace of mind,<br><span>in the palm of your hand.</span></h1>
+    <p>An easy-to-use app that instantly connects you to emergency support, verified safe routes, and your closest friends when you need them most.</p>
+
+    <div class="phone-preview">
+      <div class="phone-inner">
+        <p style="font-size: 0.8rem; color: #10b981;">● Protected</p>
+        <h4 style="margin: 12px 0 4px;">Hi, Priya 👋</h4>
+        <p style="font-size: 0.8rem; color: #94a3b8;">You are safe and connected.</p>
+        <div class="sos-circle">
+          <i class="fa-solid fa-bell" style="font-size: 1rem; margin-bottom: 2px;"></i>
+          SOS
         </div>
-    </section>
+        <p style="font-size: 0.75rem; color: #cbd5e1;">Press & hold to alert family</p>
+      </div>
+    </div>
+  </section>
 
-    <!-- App UI Mockup (Simplified & Friendly) -->
-    <section class="relative px-6 pb-32">
-        <div class="max-w-4xl mx-auto reveal animate-float">
-            <!-- Sleek Phone Frame -->
-            <div class="bg-[#0A0A0A] border border-white/[0.08] p-3 rounded-[2.5rem] backdrop-blur-3xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] ring-1 ring-white/[0.05] max-w-md mx-auto">
-                <div class="bg-[#050505] border border-white/[0.05] rounded-[2rem] overflow-hidden relative shadow-inner h-[600px] flex flex-col">
-                    
-                    <!-- Dynamic Island / Top Bar -->
-                    <div class="pt-4 px-6 pb-2 flex justify-between items-center z-10 relative">
-                        <span class="text-xs font-semibold text-white">9:41</span>
-                        <div class="w-24 h-6 bg-black rounded-full border border-white/10 flex items-center justify-center gap-1.5">
-                            <div class="w-1.5 h-1.5 bg-brand-500 rounded-full animate-pulse"></div>
-                            <span class="text-[10px] text-brand-400 font-medium">Protected</span>
-                        </div>
-                        <div class="flex gap-1.5 items-center">
-                            <i data-lucide="signal" class="w-3.5 h-3.5 text-white"></i>
-                            <i data-lucide="wifi" class="w-3.5 h-3.5 text-white"></i>
-                            <i data-lucide="battery-full" class="w-4 h-4 text-white"></i>
-                        </div>
-                    </div>
+  <div class="container stats">
+    <div class="stat-card"><h3>Instant</h3><p>SOS Alerts</p></div>
+    <div class="stat-card"><h3>100%</h3><p>Private & Un-tracked</p></div>
+    <div class="stat-card"><h3>24/7</h3><p>Community Grid</p></div>
+    <div class="stat-card"><h3>Free</h3><p>Forever</p></div>
+  </div>
 
-                    <!-- App Content -->
-                    <div class="flex-1 p-6 flex flex-col gap-6 relative z-10">
-                        
-                        <!-- Greeting -->
-                        <div class="mt-4">
-                            <h2 class="text-2xl font-bold text-white">Hi, Priya 👋</h2>
-                            <p class="text-slate-400 text-sm mt-1">You are safe and connected.</p>
-                        </div>
+  <section class="container" id="features">
+    <div class="features-grid">
+      <div class="card">
+        <h3>One-Tap Emergency Alert</h3>
+        <p>Location coordinates, battery level, and audio snapshot sent instantly to your circle.</p>
+      </div>
+      <div class="card">
+        <h3>Verified Safe Routes</h3>
+        <p>Navigate through well-lit streets verified by women in the community.</p>
+      </div>
+      <div class="card">
+        <h3>Private by Design</h3>
+        <p>Zero passive tracking. Your data is shared only when you choose to activate it.</p>
+      </div>
+    </div>
+  </section>
 
-                        <!-- Info Cards -->
-                        <div class="space-y-3">
-                            <div class="bg-[#141414] border border-white/[0.05] p-4 rounded-2xl flex items-center gap-4 shadow-lg">
-                                <div class="w-10 h-10 rounded-full bg-brand-500/20 flex items-center justify-center text-brand-400">
-                                    <i data-lucide="map-pin" class="w-5 h-5"></i>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-semibold text-white">Current Location</div>
-                                    <div class="text-xs text-slate-400 mt-0.5">Shared only with Family</div>
-                                </div>
-                            </div>
-                            <div class="bg-[#141414] border border-white/[0.05] p-4 rounded-2xl flex items-center gap-4 shadow-lg">
-                                <div class="w-10 h-10 rounded-full bg-accent-500/20 flex items-center justify-center text-accent-400">
-                                    <i data-lucide="users" class="w-5 h-5"></i>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-semibold text-white">Trusted Circle</div>
-                                    <div class="text-xs text-slate-400 mt-0.5">Mom & Rahul are active</div>
-                                </div>
-                            </div>
-                        </div>
+  <footer>
+    <p>© 2026 ShaktiSetu App. All rights reserved.</p>
+  </footer>
 
-                        <!-- Main SOS Button -->
-                        <div class="flex-1 flex flex-col items-center justify-center mt-4">
-                            <!-- Subtle radar rings -->
-                            <div class="absolute inset-0 flex items-center justify-center opacity-40 pointer-events-none mt-20">
-                                <div class="w-48 h-48 rounded-full border border-rose-500/20"></div>
-                                <div class="w-64 h-64 rounded-full border border-rose-500/10 absolute"></div>
-                            </div>
-
-                            <div class="relative z-10 flex flex-col items-center">
-                                <div class="w-36 h-36 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center relative cursor-pointer group hover:bg-rose-500/20 transition-all duration-300">
-                                    <div class="absolute inset-0 rounded-full bg-rose-500 blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
-                                    <div class="w-28 h-28 rounded-full bg-gradient-to-br from-rose-500 to-rose-700 flex flex-col items-center justify-center shadow-[0_0_40px_rgba(244,63,94,0.5)] relative overflow-hidden transform group-active:scale-95 transition-transform">
-                                        <i data-lucide="alert-triangle" class="w-8 h-8 text-white mb-1"></i>
-                                        <span class="font-bold text-lg tracking-wider text-white">SOS</span>
-                                    </div>
-                                </div>
-                                <p class="mt-6 text-sm font-medium text-slate-400 text-center">Press & hold for 2 seconds<br>to alert your family.</p>
-                            </div>
-                        </div>
-
-                    </div>
-                    
-                    <!-- Bottom Nav Line -->
-                    <div class="h-1 w-1/3 bg-white/20 mx-auto rounded-full mb-4 z-10 relative"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Banner (Translated to Human Benefits) -->
-    <section class="border-y border-white/[0.05] bg-[#0A0A0A] py-10 overflow-hidden flex items-center">
-        <div class="max-w-6xl mx-auto px-6 w-full grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/[0.05]">
-            <div class="reveal">
-                <div class="text-3xl md:text-4xl font-bold text-white tracking-tight">Instant</div>
-                <div class="text-sm text-slate-400 mt-2 font-medium">SOS Alerts to Family</div>
-            </div>
-            <div class="reveal" style="transition-delay: 50ms;">
-                <div class="text-3xl md:text-4xl font-bold text-white tracking-tight">100<span class="text-brand-500">%</span></div>
-                <div class="text-sm text-slate-400 mt-2 font-medium">Private & Un-tracked</div>
-            </div>
-            <div class="reveal" style="transition-delay: 100ms;">
-                <div class="text-3xl md:text-4xl font-bold text-white tracking-tight">24/7</div>
-                <div class="text-sm text-slate-400 mt-2 font-medium">Active Community</div>
-            </div>
-            <div class="reveal" style="transition-delay: 150ms;">
-                <div class="text-3xl md:text-4xl font-bold text-white tracking-tight">Free</div>
-                <div class="text-sm text-slate-400 mt-2 font-medium">Forever for Everyone</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Friendly Features (Bento Grid) -->
-    <section id="features" class="py-32 px-6">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16 reveal">
-                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">Features that care for you.</h2>
-                <p class="text-slate-400 text-lg max-w-2xl mx-auto">Designed to be simple and reliable, because in an emergency, you shouldn't have to think twice.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[320px]">
-                
-                <!-- Feature 1: Wide -->
-                <div class="glass-card md:col-span-2 p-8 flex flex-col justify-between relative overflow-hidden group reveal">
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl group-hover:bg-rose-500/20 transition-colors"></div>
-                    <div class="z-10">
-                        <div class="w-12 h-12 rounded-2xl bg-rose-500/20 flex items-center justify-center mb-6 text-rose-400 shadow-[0_0_15px_rgba(244,63,94,0.2)]">
-                            <i data-lucide="zap" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-3">One-Tap Emergency Alert</h3>
-                        <p class="text-slate-300 text-base max-w-md leading-relaxed">If you feel unsafe, simply press the SOS button. Your exact location, battery level, and an audio snippet are instantly sent to your trusted family members and local authorities.</p>
-                    </div>
-                </div>
-
-                <!-- Feature 2: Small -->
-                <div class="glass-card p-8 flex flex-col justify-between relative overflow-hidden group reveal" style="transition-delay: 100ms;">
-                    <div class="absolute bottom-0 right-0 w-40 h-40 bg-brand-500/10 rounded-full blur-2xl"></div>
-                    <div class="z-10">
-                        <div class="w-12 h-12 rounded-2xl bg-brand-500/20 flex items-center justify-center mb-6 text-brand-400">
-                            <i data-lucide="map" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Verified Safe Routes</h3>
-                        <p class="text-slate-300 text-sm leading-relaxed">Instead of the fastest route, we guide you through well-lit, busy streets verified by other women in the community.</p>
-                    </div>
-                </div>
-
-                <!-- Feature 3: Small -->
-                <div class="glass-card p-8 flex flex-col justify-between relative overflow-hidden group reveal" style="transition-delay: 200ms;">
-                    <div class="absolute top-0 left-0 w-40 h-40 bg-slate-500/10 rounded-full blur-2xl"></div>
-                    <div class="z-10">
-                        <div class="w-12 h-12 rounded-2xl bg-slate-800 flex items-center justify-center mb-6 text-slate-300 border border-white/10">
-                            <i data-lucide="shield-check" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Private by Design</h3>
-                        <p class="text-slate-300 text-sm leading-relaxed">Your location is yours. We don't track you in the background or sell your data. Location is shared only when YOU choose to.</p>
-                    </div>
-                </div>
-
-                <!-- Feature 4: Wide -->
-                <div class="glass-card md:col-span-2 p-8 flex flex-col justify-between relative overflow-hidden group reveal" style="transition-delay: 300ms;">
-                    <div class="absolute bottom-0 left-0 w-64 h-64 bg-accent-500/10 rounded-full blur-3xl group-hover:bg-accent-500/20 transition-colors"></div>
-                    <div class="z-10">
-                        <div class="w-12 h-12 rounded-2xl bg-accent-500/20 flex items-center justify-center mb-6 text-accent-400 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
-                            <i data-lucide="heart-handshake" class="w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-3">Your Trusted Circle</h3>
-                        <p class="text-slate-300 text-base max-w-md leading-relaxed">Add your parents, siblings, or close friends to your 'Trusted Circle'. They will get notified when you start a late-night commute and when you reach home safely.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works (Replaced Developer Code Section with Simple Steps) -->
-    <section id="how-it-works" class="py-24 bg-[#050505] border-y border-white/[0.05]">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-16 reveal">
-                <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Simple to use when seconds matter.</h2>
-                <p class="text-slate-400 text-lg">Setup takes less than 2 minutes.</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Step 1 -->
-                <div class="text-center reveal">
-                    <div class="w-16 h-16 rounded-full bg-[#141414] border border-white/10 flex items-center justify-center text-2xl font-bold text-brand-400 mx-auto mb-6 shadow-lg">1</div>
-                    <h3 class="text-xl font-bold text-white mb-3">Download & Signup</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed px-4">Download the free app and verify your phone number. No hidden charges or complex forms.</p>
-                </div>
-                <!-- Step 2 -->
-                <div class="text-center reveal" style="transition-delay: 100ms;">
-                    <div class="w-16 h-16 rounded-full bg-[#141414] border border-white/10 flex items-center justify-center text-2xl font-bold text-accent-400 mx-auto mb-6 shadow-lg">2</div>
-                    <h3 class="text-xl font-bold text-white mb-3">Add Your Family</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed px-4">Select up to 5 close contacts from your phonebook. They will be your primary safety net.</p>
-                </div>
-                <!-- Step 3 -->
-                <div class="text-center reveal" style="transition-delay: 200ms;">
-                    <div class="w-16 h-16 rounded-full bg-[#141414] border border-white/10 flex items-center justify-center text-2xl font-bold text-rose-400 mx-auto mb-6 shadow-lg">3</div>
-                    <h3 class="text-xl font-bold text-white mb-3">Move Fearlessly</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed px-4">Use SafeRoute for night walks, or keep the app handy. Help is now always just one tap away.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Friendly Download Section -->
-    <section id="download" class="py-32 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-t from-brand-500/10 to-transparent pointer-events-none"></div>
-        <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
-            <div class="w-16 h-16 rounded-3xl bg-gradient-to-tr from-brand-500 to-accent-500 flex items-center justify-center shadow-[0_0_30px_rgba(6,182,212,0.4)] mx-auto mb-8">
-                <i data-lucide="shield-check" class="w-8 h-8 text-white"></i>
-            </div>
-            
-            <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Join the community today.</h2>
-            <p class="text-slate-300 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-                Empower yourself and the women around you. ShaktiSetu is 100% free forever, because safety is a right, not a luxury.
-            </p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-<a href="ShaktiSetu.apk" class="btn-glow w-full sm:w-auto bg-white text-black px-10 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform flex items-center justify-center gap-2">
-                    <i data-lucide="download" class="w-5 h-5"></i>
-                    Get the App Free
-                </a>
-            </div>
-            <p class="mt-6 text-sm text-slate-500">Available for all Android smartphones.</p>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="border-t border-white/[0.05] bg-[#050505] pt-16 pb-8">
-        <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            <div class="col-span-1 md:col-span-2">
-                <div class="flex items-center gap-2 mb-4">
-                    <i data-lucide="shield-check" class="w-6 h-6 text-brand-500"></i>
-                    <span class="font-bold text-xl tracking-tight text-white">ShaktiSetu</span>
-                </div>
-                <p class="text-slate-400 text-sm max-w-sm leading-relaxed">
-                    A community-driven platform dedicated to making our streets, commutes, and daily lives safer for every woman.
-                </p>
-                <div class="flex gap-4 mt-6">
-                    <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
-                    <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
-                    <a href="#" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
-                </div>
-            </div>
-            <div>
-                <h4 class="font-bold text-white mb-4">Learn More</h4>
-                <ul class="space-y-3 text-sm text-slate-400">
-                    <li><a href="#" class="hover:text-white transition-colors">How it Works</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Safety Tips</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Contact Support</a></li>
-                </ul>
-            </div>
-            <div id="privacy">
-                <h4 class="font-bold text-white mb-4">Trust & Privacy</h4>
-                <ul class="space-y-3 text-sm text-slate-400">
-                    <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Data Security</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Terms of Use</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="max-w-6xl mx-auto px-6 pt-8 border-t border-white/[0.05] flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-            <p>&copy; 2026 ShaktiSetu App. All rights reserved.</p>
-            <p>Made with ❤️ for a safer world.</p>
-        </div>
-    </footer>
-
-    <script>
-        // Initialize Icons
-        lucide.createIcons();
-
-        // Glassy Nav Scroll Effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 20) {
-                navbar.classList.add('nav-glass');
-                navbar.classList.remove('bg-transparent', 'py-4');
-            } else {
-                navbar.classList.remove('nav-glass');
-                navbar.classList.add('bg-transparent', 'py-4');
-            }
-        });
-
-        // Scroll Reveal Animation
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
-
-        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            });
-        }, revealOptions);
-
-        revealElements.forEach(el => revealOnScroll.observe(el));
-    </script>
 </body>
 </html>
